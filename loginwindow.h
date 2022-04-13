@@ -15,8 +15,19 @@ public:
     explicit LoginWindow(QWidget *parent = nullptr);
     ~LoginWindow();
 
+    QString GetUserName()const noexcept;
+    void SetUserName(const QString& userName);
+
+private slots:
+    void on_loginButton_clicked();
+
+    void on_showButton_pressed();
+
+    void on_showButton_released();
+
 private:
     Ui::LoginWindow *ui;
+    QString m_userName;
 };
 
 #endif // LOGINWINDOW_H

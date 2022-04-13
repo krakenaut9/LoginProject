@@ -12,10 +12,15 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(const QString& userName, QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+    void changeMyPassword();
+    void showAccountInformation();
+    void manageAccounts();
 private:
     Ui::MainWindow *ui;
+    QString m_userName;
 };
 #endif // MAINWINDOW_H

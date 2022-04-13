@@ -15,7 +15,8 @@ SOURCES += \
 
 HEADERS += \
     loginwindow.h \
-    mainwindow.h
+    mainwindow.h \
+    pch.h
 
 FORMS += \
     loginwindow.ui \
