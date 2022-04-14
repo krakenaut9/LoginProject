@@ -11,11 +11,13 @@ CONFIG += c++11
 SOURCES += \
     loginwindow.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    manageusers.cpp
 
 HEADERS += \
     loginwindow.h \
     mainwindow.h \
+    manageusers.h \
     pch.h
 
 FORMS += \

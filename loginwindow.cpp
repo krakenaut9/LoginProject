@@ -1,23 +1,22 @@
 #include "loginwindow.h"
 #include "ui_loginwindow.h"
-
+#include <manageusers.h>
 LoginWindow::LoginWindow(QWidget *parent) :
     QDialog(parent),
-    m_jsonFile(USERS_FILE),
     ui(new Ui::LoginWindow)
 
 {
+    QFile jsonFile(USERS_FILE);
     ui->setupUi(this);
     this->setFixedSize(550, 400);
 
-    if(!m_jsonFile.open(QIODevice::ReadOnly | QIODevice::Text | QIODevice::ExistingOnly))
+    if(!jsonFile.open(QIODevice::ReadOnly | QIODevice::Text | QIODevice::ExistingOnly))
     {
         qDebug() << "Failed to open json file";
         return;
     }
     QJsonParseError JsonParseError;
-    m_jsonDocument = QJsonDocument::fromJson(m_jsonFile.readAll(), &JsonParseError);
-
+    m_jsonDocument = QJsonDocument::fromJson(jsonFile.readAll(), &JsonParseError);
 }
 
 LoginWindow::~LoginWindow()
@@ -27,11 +26,21 @@ LoginWindow::~LoginWindow()
 
 void LoginWindow::on_loginButton_clicked()
 {
+    static bool firstIteration = true;
+
     QJsonObject RootObject;
 
     RootObject = m_jsonDocument.object();
 
     QString userName = ui->usernameLineEdit->text();
+    static QString previousUserName;
+    if(userName != previousUserName)
+    {
+        firstIteration = true;
+        qDebug() << "Prev name " << previousUserName << " differs from current " << userName;
+    }
+    previousUserName = userName;
+
     QString password = ui->passwordLineEdit->text();
 
     if(userName.length() == 0)
@@ -39,6 +48,7 @@ void LoginWindow::on_loginButton_clicked()
         qDebug()<<"Empty username";
         ui->informLabel->setText("Empty username field");
         ui->usernameLineEdit->setFocus();
+        firstIteration = true;
         return;
     }
 
@@ -48,21 +58,36 @@ void LoginWindow::on_loginButton_clicked()
         qDebug() << "No such user";
         ui->informLabel->setText("No such user");
         ui->usernameLineEdit->setFocus();
+        firstIteration = true;
         return;
     }
 
-    if(userObjectIterator.value().toObject()["Password"] != password)
+
+    if(userObjectIterator.value().toObject()[PASSWORD] != password)
     {
         qDebug() << "Incorrect password";
         ui->informLabel->setText("Incorrect password");
-        ui->usernameLineEdit->setFocus();
+        ui->passwordLineEdit->clear();
+        ui->passwordLineEdit->setFocus();
+        firstIteration = true;
         return;
     }
-    //QJsonObject userObject = RootObject.find(userName).value().toObject();
-    //userObject["Password"];
+
+
+    if(userObjectIterator.value().toObject()[FIRST_LOGIN] == true && firstIteration == true)
+    {
+        qDebug() << "First login";
+        ui->informLabel->setText("Please enter the password one more time");
+        ui->passwordLineEdit->setFocus();
+        ui->passwordLineEdit->clear();
+        firstIteration = false;
+        return;
+    }
+
+    ManageUsers::changeProperty(userName, FIRST_LOGIN, false);
+
     accept();
     SetUserName(userName);
-    m_jsonFile.close();
 }
 
 

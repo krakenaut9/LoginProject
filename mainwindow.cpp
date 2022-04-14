@@ -21,7 +21,7 @@ MainWindow::MainWindow(const QString& userName, QWidget *parent)
     auto actionLogOut = menuMyAccount->addAction("Log out");
     connect(actionLogOut, &QAction::triggered, this, &QApplication::quit);
 
-    if(m_userName == "admin")
+    if(m_userName == ADMIN)
     {
         //Admin can manage profiles
         auto actionManageAccounts = ui->menubar->addAction("Manage accounts");

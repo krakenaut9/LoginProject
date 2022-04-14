@@ -25,8 +25,7 @@ private slots:
 
     void on_showButton_released();
 
-private:    
-    QFile m_jsonFile;
+private:
     Ui::LoginWindow *ui;
     QString m_userName;
     QJsonDocument m_jsonDocument;

@@ -8,5 +8,8 @@
 #include <QJsonValue>
 #include <QFile>
 
-#define USERS_FILE "users.json"
+#define USERS_FILE  "users.json"
+#define PASSWORD    "Password"
+#define FIRST_LOGIN "FirstLogin"
+#define ADMIN       "admin"
 #endif // PCH_H
