@@ -17,6 +17,8 @@ LoginWindow::LoginWindow(QWidget *parent) :
     }
     QJsonParseError JsonParseError;
     m_jsonDocument = QJsonDocument::fromJson(jsonFile.readAll(), &JsonParseError);
+
+    connect(ui->passwordLineEdit, &QLineEdit::returnPressed, this, &LoginWindow::on_loginButton_clicked);
 }
 
 LoginWindow::~LoginWindow()
@@ -27,12 +29,13 @@ LoginWindow::~LoginWindow()
 void LoginWindow::on_loginButton_clicked()
 {
     static bool firstIteration = true;
-
+    static quint8 incorrectPassword;
     QJsonObject RootObject;
 
     RootObject = m_jsonDocument.object();
 
     QString userName = ui->usernameLineEdit->text();
+    userName = userName.toLower();
     static QString previousUserName;
     if(userName != previousUserName)
     {
@@ -70,11 +73,16 @@ void LoginWindow::on_loginButton_clicked()
         ui->passwordLineEdit->clear();
         ui->passwordLineEdit->setFocus();
         firstIteration = true;
+        if(++incorrectPassword == 3)
+        {
+            qDebug() << "Incorrect password 3 times.";
+            QApplication::quit();
+        }
         return;
     }
 
 
-    if(userObjectIterator.value().toObject()[FIRST_LOGIN] == true && firstIteration == true)
+    if(userObjectIterator.value().toObject()[FIRST_LOGIN] == true && firstIteration)
     {
         qDebug() << "First login";
         ui->informLabel->setText("Please enter the password one more time");
@@ -110,3 +118,9 @@ void LoginWindow::SetUserName(const QString& userName)
 {
     m_userName = userName;
 }
+
+void LoginWindow::on_usernameLineEdit_editingFinished()
+{
+    ui->passwordLineEdit->setFocus();
+}
+

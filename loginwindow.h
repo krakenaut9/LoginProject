@@ -25,6 +25,8 @@ private slots:
 
     void on_showButton_released();
 
+    void on_usernameLineEdit_editingFinished();
+
 private:
     Ui::LoginWindow *ui;
     QString m_userName;
