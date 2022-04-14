@@ -1,6 +1,6 @@
 #ifndef LOGINWINDOW_H
 #define LOGINWINDOW_H
-
+#include <pch.h>
 #include <QDialog>
 
 namespace Ui {
@@ -25,9 +25,11 @@ private slots:
 
     void on_showButton_released();
 
-private:
+private:    
+    QFile m_jsonFile;
     Ui::LoginWindow *ui;
     QString m_userName;
+    QJsonDocument m_jsonDocument;
 };
 
 #endif // LOGINWINDOW_H

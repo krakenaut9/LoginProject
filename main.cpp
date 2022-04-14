@@ -2,8 +2,28 @@
 #include "loginwindow.h"
 #include <QApplication>
 #include <QDebug>
+#include <QFile>
+#include <pch.h>
+
 int main(int argc, char *argv[])
 {
+    if(!QFile(USERS_FILE).exists())
+    {
+        QFile usersFile(USERS_FILE);
+        if(!usersFile.open(QIODevice::NewOnly | QIODevice::ReadWrite | QIODevice::Text))
+        {
+           qDebug()<<"New file creation failed";
+           return QFile::FatalError;
+        }
+        QJsonObject mainObject;
+        QJsonObject adminUser;
+        adminUser.insert("Password", "");
+        mainObject.insert("admin", adminUser);
+        QJsonDocument jsonDoc(mainObject);
+        qDebug() << jsonDoc.toJson(QJsonDocument::Indented);
+        usersFile.write(jsonDoc.toJson(QJsonDocument::Indented));
+        usersFile.close();
+    }
     QApplication a(argc, argv);
     LoginWindow lw;
     if(lw.exec() == QDialog::Accepted)

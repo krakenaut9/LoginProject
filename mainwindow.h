@@ -19,6 +19,8 @@ public slots:
     void changeMyPassword();
     void showAccountInformation();
     void manageAccounts();
+    void aboutAuthor();
+    void usedTechnologies();
 private:
     Ui::MainWindow *ui;
     QString m_userName;

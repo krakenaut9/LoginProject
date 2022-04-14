@@ -9,16 +9,16 @@ MainWindow::MainWindow(const QString& userName, QWidget *parent)
     ui->setupUi(this);
     ui->statusbar->showMessage("User : " + m_userName);
 
-    auto MyAccount = ui->menubar->addMenu("My account");
+    auto menuMyAccount = ui->menubar->addMenu("My account");
 
-    auto actionShowInformation = MyAccount->addAction("Show information");
+    auto actionShowInformation = menuMyAccount->addAction("Show information");
     connect(actionShowInformation, &QAction::triggered, this, &MainWindow::showAccountInformation);
-    auto actionChangePassword = MyAccount->addAction("Change password");
+    auto actionChangePassword = menuMyAccount->addAction("Change password");
     connect(actionChangePassword, &QAction::triggered, this, &MainWindow::changeMyPassword);
 
-    MyAccount->addSeparator();
+    menuMyAccount->addSeparator();
 
-    auto actionLogOut = MyAccount->addAction("Log out");
+    auto actionLogOut = menuMyAccount->addAction("Log out");
     connect(actionLogOut, &QAction::triggered, this, &QApplication::quit);
 
     if(m_userName == "admin")
@@ -27,6 +27,13 @@ MainWindow::MainWindow(const QString& userName, QWidget *parent)
         auto actionManageAccounts = ui->menubar->addAction("Manage accounts");
         connect(actionManageAccounts, &QAction::triggered, this, &MainWindow::manageAccounts);
     }
+
+    auto menuAbout = ui->menubar->addMenu("About");
+
+    auto actionAboutAuthor = menuAbout->addAction("About author");
+    connect(actionAboutAuthor, &QAction::triggered, this, &MainWindow::aboutAuthor);
+    auto actionUsedTechnologies = menuAbout->addAction("Used technologies");
+    connect(actionUsedTechnologies, &QAction::triggered, this, &MainWindow::usedTechnologies);
 }
 
 MainWindow::~MainWindow()
@@ -47,5 +54,15 @@ void MainWindow::showAccountInformation()
 void MainWindow::manageAccounts()
 {
     qDebug()<<"Manage accounts";
+}
+
+void MainWindow::aboutAuthor()
+{
+    qDebug()<<"About author";
+}
+
+void MainWindow::usedTechnologies()
+{
+    qDebug()<<"Used technologies";
 }
 
