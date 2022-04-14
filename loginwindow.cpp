@@ -76,7 +76,7 @@ void LoginWindow::on_loginButton_clicked()
         if(++incorrectPassword == 3)
         {
             qDebug() << "Incorrect password 3 times.";
-            QApplication::quit();
+            reject();
         }
         return;
     }

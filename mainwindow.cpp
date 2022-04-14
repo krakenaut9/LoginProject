@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <aboutwindow.h>
 #include <pch.h>
 MainWindow::MainWindow(const QString& userName, QWidget *parent)
     : QMainWindow(parent)
@@ -59,6 +60,9 @@ void MainWindow::manageAccounts()
 void MainWindow::aboutAuthor()
 {
     qDebug()<<"About author";
+    AboutWindow aboutWindow;
+    aboutWindow.setModal(true);
+    aboutWindow.exec();
 }
 
 void MainWindow::usedTechnologies()
