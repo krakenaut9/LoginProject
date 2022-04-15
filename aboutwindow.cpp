@@ -6,6 +6,7 @@ AboutWindow::AboutWindow(QWidget *parent) :
     ui(new Ui::AboutWindow)
 {
     ui->setupUi(this);
+
     ui->textLabel->setTextFormat(Qt::RichText);
     ui->textLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
     ui->textLabel->setOpenExternalLinks(true);

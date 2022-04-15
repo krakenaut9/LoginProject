@@ -13,19 +13,22 @@ SOURCES += \
     loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
-    manageusers.cpp
+    manageusers.cpp \
+    technologieswindow.cpp
 
 HEADERS += \
     aboutwindow.h \
     loginwindow.h \
     mainwindow.h \
     manageusers.h \
-    pch.h
+    pch.h \
+    technologieswindow.h
 
 FORMS += \
     aboutwindow.ui \
     loginwindow.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    technologieswindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -7,7 +7,7 @@
 #include <QJsonArray>
 #include <QJsonValue>
 #include <QFile>
-
+#include <QMessageBox>
 #define USERS_FILE  "users.json"
 #define PASSWORD    "Password"
 #define FIRST_LOGIN "FirstLogin"

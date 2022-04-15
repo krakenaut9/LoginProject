@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <aboutwindow.h>
+#include <technologieswindow.h>
 #include <pch.h>
 MainWindow::MainWindow(const QString& userName, QWidget *parent)
     : QMainWindow(parent)
@@ -68,5 +69,8 @@ void MainWindow::aboutAuthor()
 void MainWindow::usedTechnologies()
 {
     qDebug()<<"Used technologies";
+    TechnologiesWindow techWindow;
+    techWindow.setModal(true);
+    techWindow.exec();
 }
 
