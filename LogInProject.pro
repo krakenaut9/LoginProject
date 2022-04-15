@@ -14,6 +14,7 @@ SOURCES += \
     loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
+    manageaccountswindow.cpp \
     manageusers.cpp \
     technologieswindow.cpp
 
@@ -22,6 +23,7 @@ HEADERS += \
     chpasswindow.h \
     loginwindow.h \
     mainwindow.h \
+    manageaccountswindow.h \
     manageusers.h \
     pch.h \
     technologieswindow.h
@@ -31,6 +33,7 @@ FORMS += \
     chpasswindow.ui \
     loginwindow.ui \
     mainwindow.ui \
+    manageaccountswindow.ui \
     technologieswindow.ui
 
 # Default rules for deployment.
