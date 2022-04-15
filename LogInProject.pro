@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     aboutwindow.cpp \
+    chpasswindow.cpp \
     loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -18,6 +19,7 @@ SOURCES += \
 
 HEADERS += \
     aboutwindow.h \
+    chpasswindow.h \
     loginwindow.h \
     mainwindow.h \
     manageusers.h \
@@ -26,6 +28,7 @@ HEADERS += \
 
 FORMS += \
     aboutwindow.ui \
+    chpasswindow.ui \
     loginwindow.ui \
     mainwindow.ui \
     technologieswindow.ui

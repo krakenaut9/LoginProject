@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <aboutwindow.h>
 #include <technologieswindow.h>
+#include <chpasswindow.h>
 #include <pch.h>
 MainWindow::MainWindow(const QString& userName, QWidget *parent)
     : QMainWindow(parent)
@@ -46,6 +47,9 @@ MainWindow::~MainWindow()
 void MainWindow::changeMyPassword()
 {
     qDebug()<<"Change password";
+    ChPassWindow chPassWindow(m_userName);
+    chPassWindow.setModal(true);
+    chPassWindow.exec();
 }
 
 void MainWindow::showAccountInformation()

@@ -17,7 +17,6 @@ LoginWindow::LoginWindow(QWidget *parent) :
     }
     QJsonParseError JsonParseError;
     m_jsonDocument = QJsonDocument::fromJson(jsonFile.readAll(), &JsonParseError);
-
     connect(ui->passwordLineEdit, &QLineEdit::returnPressed, this, &LoginWindow::on_loginButton_clicked);
 }
 
@@ -109,6 +108,7 @@ void LoginWindow::on_showButton_pressed()
 void LoginWindow::on_showButton_released()
 {
     ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
+    ui->passwordLineEdit->setFocus();
 }
 
 QString LoginWindow::GetUserName()const noexcept
