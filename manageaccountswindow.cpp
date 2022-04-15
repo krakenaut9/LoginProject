@@ -2,6 +2,7 @@
 #include "ui_manageaccountswindow.h"
 #include <accounteditorwindow.h>
 #include <pch.h>
+#include <manageusers.h>
 
 ManageAccountsWindow::ManageAccountsWindow(QWidget *parent) :
     QDialog(parent),
@@ -35,9 +36,42 @@ ManageAccountsWindow::~ManageAccountsWindow()
 
 void ManageAccountsWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
-    qDebug() << "Double clicked : " << item->text(0);
-    AccountEditorWindow editor;
+    QString userName = item->text(0);
+    bool isBlocked = item->text(1) == "true" ? true : false;
+    bool isRestricted = item->text(2) == "true" ? true : false;
+    qDebug() << "Double clicked : " << userName;
+    AccountEditorWindow editor(
+                userName,
+                isBlocked,
+                isRestricted
+                );
     editor.setModal(true);
-    editor.exec();
+    auto execRes = editor.exec();
+    if(execRes == QDialog::Rejected)
+    {
+        qDebug() << "Editor rejected";
+        return;
+    }
+    else if(execRes == QDialog::Accepted)
+    {
+        qDebug() << "Editor accepted";
+        editor.getBlockedState();
+        ManageUsers::changeProperty(userName, PASSWORD, editor.getPassword());
+        if(isBlocked != editor.getBlockedState())
+        {
+            qDebug() << "Change blocked state";
+            ManageUsers::changeProperty(userName, IS_BLOCKED, editor.getBlockedState());
+            item->setText(1, editor.getBlockedState() ? "true" : "false");
+        }
+        if(isRestricted != editor.getRestrictedState())
+        {
+            qDebug() << "Change restricted state";
+            ManageUsers::changeProperty(userName, RESTRICTED_PASSWORD, editor.getRestrictedState());
+            item->setText(2, editor.getRestrictedState() ? "true" : "false");
+        }
+        return;
+    }
+    qDebug() << "I don't know how did you got here lol\n"
+                "Just a kek comment 15.04.22 23:13";
 }
 
