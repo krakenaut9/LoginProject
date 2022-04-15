@@ -3,7 +3,9 @@
 #include <aboutwindow.h>
 #include <technologieswindow.h>
 #include <chpasswindow.h>
+#include <manageaccountswindow.h>
 #include <pch.h>
+
 MainWindow::MainWindow(const QString& userName, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -60,6 +62,9 @@ void MainWindow::showAccountInformation()
 void MainWindow::manageAccounts()
 {
     qDebug()<<"Manage accounts";
+    ManageAccountsWindow manageWindow;
+    manageWindow.setModal(true);
+    manageWindow.exec();
 }
 
 void MainWindow::aboutAuthor()

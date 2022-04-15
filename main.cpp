@@ -17,8 +17,11 @@ int main(int argc, char *argv[])
         }
         QJsonObject mainObject;
         QJsonObject adminUser;
-        adminUser.insert("Password", "");
-        mainObject.insert("admin", adminUser);
+        adminUser.insert(PASSWORD, "");
+        adminUser.insert(IS_BLOCKED, false);
+        adminUser.insert(RESTRICTED_PASSWORD, false);
+        adminUser.insert(FIRST_LOGIN, true);
+        mainObject.insert(ADMIN, adminUser);
         QJsonDocument jsonDoc(mainObject);
         qDebug() << jsonDoc.toJson(QJsonDocument::Indented);
         usersFile.write(jsonDoc.toJson(QJsonDocument::Indented));
