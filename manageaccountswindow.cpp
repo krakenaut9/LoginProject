@@ -1,5 +1,6 @@
 #include "manageaccountswindow.h"
 #include "ui_manageaccountswindow.h"
+#include <accounteditorwindow.h>
 #include <pch.h>
 
 ManageAccountsWindow::ManageAccountsWindow(QWidget *parent) :
@@ -35,6 +36,8 @@ ManageAccountsWindow::~ManageAccountsWindow()
 void ManageAccountsWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
     qDebug() << "Double clicked : " << item->text(0);
-
+    AccountEditorWindow editor;
+    editor.setModal(true);
+    editor.exec();
 }
 
