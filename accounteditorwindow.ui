@@ -61,6 +61,16 @@
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="changePassCheckBox">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="showUserPassButton">
          <property name="text">
           <string>Show</string>

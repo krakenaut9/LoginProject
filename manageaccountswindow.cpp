@@ -56,7 +56,11 @@ void ManageAccountsWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item
     {
         qDebug() << "Editor accepted";
         editor.getBlockedState();
-        ManageUsers::changeProperty(userName, PASSWORD, editor.getPassword());
+        if(editor.getChangePass())
+        {
+            qDebug() << "Change password";
+            ManageUsers::changeProperty(userName, PASSWORD, editor.getPassword());
+        }
         if(isBlocked != editor.getBlockedState())
         {
             qDebug() << "Change blocked state";
