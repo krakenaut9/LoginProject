@@ -6,6 +6,7 @@
 namespace ManageUsers {
     bool changeProperty(const QString& user, const QString& key, const QJsonValue& newValue);
     bool isPasswordValid(const QString& password);
+    bool addUser(const QString& userName, QJsonObject);
 }
 
 #endif // MANAGEUSERS_H

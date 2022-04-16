@@ -1,7 +1,8 @@
 #include "accounteditorwindow.h"
 #include "ui_accounteditorwindow.h"
 
-AccountEditorWindow::AccountEditorWindow(QString userName,
+AccountEditorWindow::AccountEditorWindow(QString winType,
+                                         QString userName,
                                          bool isBlocked,
                                          bool isRestricted,
                                          QWidget *parent) :
@@ -9,6 +10,7 @@ AccountEditorWindow::AccountEditorWindow(QString userName,
     ui(new Ui::AccountEditorWindow),
     m_userName(userName),
     m_password(""),
+    m_winType(winType),
     m_isBlocked(isBlocked),
     m_isPasswordRestricted(isRestricted)
 {
@@ -16,13 +18,22 @@ AccountEditorWindow::AccountEditorWindow(QString userName,
     ui->userNameLineEdit->setText(m_userName);
     ui->blockedCheckBox->setCheckState(isBlocked ? Qt::Checked : Qt::Unchecked);
     ui->restrictedPassCheckBox->setCheckState(isRestricted ? Qt::Checked : Qt::Unchecked);
-
-    ui->changePassCheckBox->setCheckState(Qt::Unchecked);
-    ui->passwordLineEdit->setReadOnly(true);
-    QPalette *palette = new QPalette();
-    palette->setColor(QPalette::Base,Qt::gray);
-    palette->setColor(QPalette::Text,Qt::darkGray);
-    ui->passwordLineEdit->setPalette(*palette);
+    if(winType == EDIT)
+    {
+        ui->changePassCheckBox->setCheckState(Qt::Unchecked);
+        ui->passwordLineEdit->setReadOnly(true);
+        QPalette *palette = new QPalette();
+        palette->setColor(QPalette::Base,Qt::gray);
+        palette->setColor(QPalette::Text,Qt::darkGray);
+        ui->passwordLineEdit->setPalette(*palette);
+    }
+    else if(winType == ADD_NEW)
+    {
+        ui->userNameLineEdit->setReadOnly(false);
+        ui->changePassCheckBox->setCheckState(Qt::Checked);
+        ui->userNameLineEdit->setFocus();
+    }
+    setWindowTitle(winType);
 }
 
 AccountEditorWindow::~AccountEditorWindow()
@@ -76,6 +87,7 @@ bool AccountEditorWindow::getChangePass()const noexcept
 
 void AccountEditorWindow::on_okButton_clicked()
 {
+    m_userName = ui->userNameLineEdit->text();
     m_password = ui->passwordLineEdit->text();
     m_isBlocked = ui->blockedCheckBox->checkState() == Qt::Checked ? true : false;
     m_isPasswordRestricted = ui->restrictedPassCheckBox->checkState() == Qt::Checked ? true : false;

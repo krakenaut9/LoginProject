@@ -13,7 +13,8 @@ class AccountEditorWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit AccountEditorWindow(QString userName,
+    explicit AccountEditorWindow(QString winType,
+                                 QString userName,
                                  bool isBlocked,
                                  bool isRestricted,
                                  QWidget *parent = nullptr);
@@ -43,6 +44,7 @@ private:
     Ui::AccountEditorWindow *ui;
     QString m_userName;
     QString m_password;
+    QString m_winType;
     bool m_isBlocked;
     bool m_isPasswordRestricted;
     bool m_changePass;

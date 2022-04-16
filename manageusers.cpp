@@ -53,3 +53,20 @@ bool ManageUsers::isPasswordValid(const QString& password)
     }
     return true;
 }
+
+bool ManageUsers::addUser(const QString& userName, QJsonObject userProperties)
+{
+    QString newUserName = userName.toLower();
+    QFile file(USERS_FILE);
+    file.open(QIODevice::ReadOnly | QIODevice::Text | QIODevice::ExistingOnly);
+    QJsonParseError JsonParseError;
+    QJsonDocument JsonDocument = QJsonDocument::fromJson(file.readAll(), &JsonParseError);
+    file.close();
+    QJsonObject RootObject = JsonDocument.object();
+    RootObject.insert(newUserName, userProperties);
+    JsonDocument.setObject(RootObject); // set to json document
+    file.open(QFile::WriteOnly | QFile::Text | QFile::Truncate);
+    file.write(JsonDocument.toJson());
+    file.close();
+    return true;
+}

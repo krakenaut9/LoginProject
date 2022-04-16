@@ -41,6 +41,7 @@ void ManageAccountsWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item
     bool isRestricted = item->text(2) == "true" ? true : false;
     qDebug() << "Double clicked : " << userName;
     AccountEditorWindow editor(
+                EDIT,
                 userName,
                 isBlocked,
                 isRestricted
@@ -55,7 +56,6 @@ void ManageAccountsWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item
     else if(execRes == QDialog::Accepted)
     {
         qDebug() << "Editor accepted";
-        editor.getBlockedState();
         if(editor.getChangePass())
         {
             qDebug() << "Change password";
@@ -77,5 +77,31 @@ void ManageAccountsWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item
     }
     qDebug() << "I don't know how did you got here lol\n"
                 "Just a kek comment 15.04.22 23:13";
+}
+
+
+void ManageAccountsWindow::on_addButton_clicked()
+{
+    qDebug() << "Add new clicked";
+    AccountEditorWindow editor(ADD_NEW, "", false, false);
+    editor.setModal(true);
+    auto editorRes = editor.exec();
+    if(editorRes == QDialog::Rejected)
+    {
+        qDebug() << "Editor rejected";
+        return;
+    }
+
+    QJsonObject userData;
+    userData.insert(IS_BLOCKED, editor.getBlockedState());
+    userData.insert(PASSWORD, editor.getPassword());
+    userData.insert(RESTRICTED_PASSWORD, editor.getRestrictedState());
+    userData.insert(FIRST_LOGIN, true);
+    ManageUsers::addUser(editor.getUserName(), userData);
+    auto newItem = new QTreeWidgetItem(ui->treeWidget);
+    newItem->setText(0, editor.getUserName());
+    newItem->setText(1, editor.getBlockedState() ? "true" : "false");
+    newItem->setText(2, editor.getRestrictedState() ? "true" : "false");
+    ui->treeWidget->addTopLevelItem(newItem);
 }
 

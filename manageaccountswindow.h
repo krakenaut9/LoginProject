@@ -18,6 +18,8 @@ public:
 private slots:
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
 
+    void on_addButton_clicked();
+
 private:
     Ui::ManageAccountsWindow *ui;
 };
