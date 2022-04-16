@@ -64,6 +64,13 @@ void LoginWindow::on_loginButton_clicked()
         return;
     }
 
+    if(userObjectIterator.value().toObject()[IS_BLOCKED].toBool())
+    {
+        qDebug()<<"User is blocked";
+        ui->informLabel->setText("This user was blocked");
+        ui->usernameLineEdit->setFocus();
+        return;
+    }
 
     if(userObjectIterator.value().toObject()[PASSWORD] != password)
     {

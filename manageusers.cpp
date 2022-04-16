@@ -28,3 +28,28 @@ bool ManageUsers::changeProperty(const QString& user, const QString& key, const 
     file.close();
     return true;
 }
+
+bool ManageUsers::isPasswordValid(const QString& password)
+{
+    if(password.contains(" "))
+    {
+        qDebug("Contains space");
+        return false;
+    }
+    QRegExp re("*[1-9]*");
+    re.setPatternSyntax(QRegExp::Wildcard);
+    if(re.exactMatch(password) == false)
+    {
+        qDebug() << "Password doesn't contain numbers";
+        return false;
+    }
+
+    re.setPattern("*[+-*/=%()^:]*");
+
+    if(re.exactMatch(password) == false)
+    {
+        qDebug() << "No such chars : +-*/=%()^:";
+        return false;
+    }
+    return true;
+}

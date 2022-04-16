@@ -81,6 +81,16 @@ void ChPassWindow::changeButtonClicked()
         ui->firstNewPassLineEdit->setFocus();
         return;
     }
+    if(it.value().toObject()[RESTRICTED_PASSWORD].toBool())
+    {
+        if(!ManageUsers::isPasswordValid(firstNewPassword))
+        {
+            qDebug() << "Incorrect new password";
+            ui->informLabel->setText("Incorrect new password. The password must contain numbers and symbols +-*/=%()^:");
+            ui->firstNewPassLineEdit->setFocus();
+            return;
+        }
+    }
 
     ManageUsers::changeProperty(m_userName, PASSWORD, firstNewPassword);
     accept();

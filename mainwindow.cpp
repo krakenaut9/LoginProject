@@ -16,8 +16,6 @@ MainWindow::MainWindow(const QString& userName, QWidget *parent)
 
     auto menuMyAccount = ui->menubar->addMenu("My account");
 
-    auto actionShowInformation = menuMyAccount->addAction("Show information");
-    connect(actionShowInformation, &QAction::triggered, this, &MainWindow::showAccountInformation);
     auto actionChangePassword = menuMyAccount->addAction("Change password");
     connect(actionChangePassword, &QAction::triggered, this, &MainWindow::changeMyPassword);
 
