@@ -44,7 +44,7 @@ bool ManageUsers::isPasswordValid(const QString& password)
         return false;
     }
 
-    re.setPattern("*[+-*/=%()^:]*");
+    re.setPattern("*[+\\-*/=%()^:]*");
 
     if(re.exactMatch(password) == false)
     {
@@ -63,7 +63,38 @@ bool ManageUsers::addUser(const QString& userName, QJsonObject userProperties)
     QJsonDocument JsonDocument = QJsonDocument::fromJson(file.readAll(), &JsonParseError);
     file.close();
     QJsonObject RootObject = JsonDocument.object();
+    if(RootObject.find(userName) != RootObject.constEnd())
+    {
+        qDebug() << "This user already exists";
+        QMessageBox::warning(nullptr, "User exists", "This user already exists");
+        return false;
+    }
     RootObject.insert(newUserName, userProperties);
+    JsonDocument.setObject(RootObject); // set to json document
+    file.open(QFile::WriteOnly | QFile::Text | QFile::Truncate);
+    file.write(JsonDocument.toJson());
+    file.close();
+    return true;
+}
+
+bool ManageUsers::deleteUser(const QString& userName)
+{
+    QString newUserName = userName.toLower();
+    QFile file(USERS_FILE);
+    file.open(QIODevice::ReadOnly | QIODevice::Text | QIODevice::ExistingOnly);
+    QJsonParseError JsonParseError;
+    QJsonDocument JsonDocument = QJsonDocument::fromJson(file.readAll(), &JsonParseError);
+    file.close();
+    QJsonObject RootObject = JsonDocument.object();
+
+    auto it = RootObject.find(userName);
+    if(it == RootObject.end())
+    {
+        qDebug() << "Didn't find user " << userName << " to delete";
+        return false;
+    }
+    RootObject.erase(it);
+
     JsonDocument.setObject(RootObject); // set to json document
     file.open(QFile::WriteOnly | QFile::Text | QFile::Truncate);
     file.write(JsonDocument.toJson());

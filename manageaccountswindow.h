@@ -19,6 +19,9 @@ private slots:
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
 
     void on_addButton_clicked();
+    void prepareMenu(const QPoint& pos);
+    void editMenu();
+    void deleteMenu();
 
 private:
     Ui::ManageAccountsWindow *ui;

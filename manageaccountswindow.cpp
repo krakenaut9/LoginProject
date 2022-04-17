@@ -3,6 +3,7 @@
 #include <accounteditorwindow.h>
 #include <pch.h>
 #include <manageusers.h>
+#include <QMenu>
 
 ManageAccountsWindow::ManageAccountsWindow(QWidget *parent) :
     QDialog(parent),
@@ -27,6 +28,8 @@ ManageAccountsWindow::ManageAccountsWindow(QWidget *parent) :
         item->setText(2, it.value().toObject()[RESTRICTED_PASSWORD].toBool() ? "true" : "false");
         ui->treeWidget->addTopLevelItem(item);
     }
+    ui->treeWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->treeWidget,&QTreeWidget::customContextMenuRequested,this,&ManageAccountsWindow::prepareMenu);
 }
 
 ManageAccountsWindow::~ManageAccountsWindow()
@@ -94,10 +97,15 @@ void ManageAccountsWindow::on_addButton_clicked()
 
     QJsonObject userData;
     userData.insert(IS_BLOCKED, editor.getBlockedState());
-    userData.insert(PASSWORD, editor.getPassword());
+    userData.insert(PASSWORD, editor.getChangePass() ? editor.getPassword() : "");
     userData.insert(RESTRICTED_PASSWORD, editor.getRestrictedState());
     userData.insert(FIRST_LOGIN, true);
-    ManageUsers::addUser(editor.getUserName(), userData);
+    bool addRes = ManageUsers::addUser(editor.getUserName(), userData);
+    if(addRes == false)
+    {
+        qDebug() << "Failed to add a new user";
+        return;
+    }
     auto newItem = new QTreeWidgetItem(ui->treeWidget);
     newItem->setText(0, editor.getUserName());
     newItem->setText(1, editor.getBlockedState() ? "true" : "false");
@@ -105,3 +113,41 @@ void ManageAccountsWindow::on_addButton_clicked()
     ui->treeWidget->addTopLevelItem(newItem);
 }
 
+void ManageAccountsWindow::editMenu()
+{
+    qDebug() << "Edit for " << ui->treeWidget->currentItem()->text(0) << " requested";
+
+    auto item = ui->treeWidget->currentItem();
+    on_treeWidget_itemDoubleClicked(item, 0); // second parameter is ignored
+}
+
+void ManageAccountsWindow::deleteMenu()
+{
+    auto item = ui->treeWidget->currentItem();
+    auto answer = QMessageBox::question(this, "Delete user", "Are you sure you want to delete this account : " + item->text(0));
+    if(answer == QMessageBox::No)
+    {
+        qDebug() << "Not sure";
+        return;
+    }
+    qDebug() << "Delete for " << item->text(0) << " requested";
+    bool deleteRes = ManageUsers::deleteUser(item->text(0));
+    if(deleteRes)
+    {
+        delete item;
+    }
+}
+
+void ManageAccountsWindow::prepareMenu(const QPoint& pos)
+{
+    qDebug()<<"Menu for " << ui->treeWidget->currentItem()->text(0) << " requested";
+
+    QMenu menu(this);
+
+    auto actionEdit = menu.addAction("Edit");
+    connect(actionEdit, &QAction::triggered, this, &ManageAccountsWindow::editMenu);
+
+    auto actionDelete = menu.addAction("Delete");
+    connect(actionDelete, &QAction::triggered, this, &ManageAccountsWindow::deleteMenu);
+    menu.exec( ui->treeWidget->mapToGlobal(pos) );
+}

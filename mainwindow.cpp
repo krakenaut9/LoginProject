@@ -37,6 +37,8 @@ MainWindow::MainWindow(const QString& userName, QWidget *parent)
     connect(actionAboutAuthor, &QAction::triggered, this, &MainWindow::aboutAuthor);
     auto actionUsedTechnologies = menuAbout->addAction("Used technologies");
     connect(actionUsedTechnologies, &QAction::triggered, this, &MainWindow::usedTechnologies);
+
+    setWindowTitle("Main Window : " + userName);
 }
 
 MainWindow::~MainWindow()
