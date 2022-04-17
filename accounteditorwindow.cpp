@@ -38,6 +38,17 @@ AccountEditorWindow::AccountEditorWindow(QString winType,
     {
         ui->blockedCheckBox->setDisabled(true);
     }
+
+    if(winType == EDIT)
+    {
+        ui->changePassCheckBox->setToolTip("Also change a password");
+    }
+    else if(winType == ADD_NEW)
+    {
+        ui->changePassCheckBox->setToolTip("Empty/not empty password");
+    }
+    ui->restrictedPassCheckBox->setToolTip("User can change his password only to one that contains numbers and symbols +-*/=%()^:");
+    ui->restrictedPassLabel->setToolTip("User can change his password only to one that contains numbers and symbols +-*/=%()^:");
     setWindowTitle(winType);
 }
 

@@ -44,7 +44,7 @@ bool ManageUsers::isPasswordValid(const QString& password)
         return false;
     }
 
-    re.setPattern("*[+\\-*/=%()^:]*");
+    re.setPattern("*[-+*/=%()^:]*");
 
     if(re.exactMatch(password) == false)
     {
