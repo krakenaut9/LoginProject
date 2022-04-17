@@ -20,7 +20,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Ligin</string>
+   <string>Login</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

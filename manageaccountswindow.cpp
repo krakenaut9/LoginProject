@@ -146,8 +146,10 @@ void ManageAccountsWindow::prepareMenu(const QPoint& pos)
 
     auto actionEdit = menu.addAction("Edit");
     connect(actionEdit, &QAction::triggered, this, &ManageAccountsWindow::editMenu);
-
-    auto actionDelete = menu.addAction("Delete");
-    connect(actionDelete, &QAction::triggered, this, &ManageAccountsWindow::deleteMenu);
+    if(ui->treeWidget->currentItem()->text(0) != ADMIN)
+    {
+        auto actionDelete = menu.addAction("Delete");
+        connect(actionDelete, &QAction::triggered, this, &ManageAccountsWindow::deleteMenu);
+    }
     menu.exec( ui->treeWidget->mapToGlobal(pos) );
 }

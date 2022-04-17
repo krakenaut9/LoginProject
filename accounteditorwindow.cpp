@@ -33,6 +33,11 @@ AccountEditorWindow::AccountEditorWindow(QString winType,
         ui->changePassCheckBox->setCheckState(Qt::Checked);
         ui->userNameLineEdit->setFocus();
     }
+
+    if(userName == ADMIN)
+    {
+        ui->blockedCheckBox->setDisabled(true);
+    }
     setWindowTitle(winType);
 }
 
