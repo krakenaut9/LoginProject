@@ -4,9 +4,12 @@
 #include <QDebug>
 #include <QFile>
 #include <pch.h>
+#include "plog/Initializers/RollingFileInitializer.h"
 
 int main(int argc, char *argv[])
 {
+    plog::init(plog::info, "LogFile.log");
+    PLOGI << "Program started";
     if(!QFile(USERS_FILE).exists())
     {
         QFile usersFile(USERS_FILE);

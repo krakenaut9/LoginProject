@@ -9,6 +9,8 @@
 #include <QFile>
 #include <QMessageBox>
 
+#include <plog/Log.h>
+
 #define USERS_FILE  "users.json"
 #define USER_NAME
 #define PASSWORD    "Password"
