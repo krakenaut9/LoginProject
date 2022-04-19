@@ -134,11 +134,3 @@ void ChPassWindow::on_showSecondNewPassButton_released()
     ui->secondNewPassLineEdit->setEchoMode(QLineEdit::Password);
     ui->secondNewPassLineEdit->setFocus();
 }
-
-
-//void ChPassWindow::on_oldPassLineEdit_returnPressed()
-//{
-//    qDebug() << "Return pressed";
-//    //ui->firstNewPassLineEdit->setFocus();
-//}
-

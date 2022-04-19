@@ -36,7 +36,7 @@ bool ManageUsers::isPasswordValid(const QString& password)
         qDebug("Contains space");
         return false;
     }
-    QRegExp re("*[1-9]*");
+    QRegExp re("*[0-9]*");
     re.setPatternSyntax(QRegExp::Wildcard);
     if(re.exactMatch(password) == false)
     {
@@ -63,6 +63,12 @@ bool ManageUsers::addUser(const QString& userName, QJsonObject userProperties)
     QJsonDocument JsonDocument = QJsonDocument::fromJson(file.readAll(), &JsonParseError);
     file.close();
     QJsonObject RootObject = JsonDocument.object();
+    if(userName.isEmpty())
+    {
+        qDebug() << "Empty user name";
+        QMessageBox::warning(nullptr, "Incorrect name", "Empty user name");
+        return false;
+    }
     if(RootObject.find(userName) != RootObject.constEnd())
     {
         qDebug() << "This user already exists";

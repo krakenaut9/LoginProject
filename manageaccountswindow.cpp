@@ -29,6 +29,7 @@ ManageAccountsWindow::ManageAccountsWindow(QWidget *parent) :
         ui->treeWidget->addTopLevelItem(item);
     }
     ui->treeWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+    ui->treeWidget->setToolTip("Right click or double click");
     connect(ui->treeWidget,&QTreeWidget::customContextMenuRequested,this,&ManageAccountsWindow::prepareMenu);
 }
 
