@@ -97,6 +97,15 @@ void ManageAccountsWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item
 void ManageAccountsWindow::on_addButton_clicked()
 {
     qDebug() << "Add new clicked";
+
+    if(ui->treeWidget->topLevelItemCount() == MAX_USERS_COUNT)
+    {
+        qDebug() << "Max users count : " << MAX_USERS_COUNT;
+        PLOGW << "Manage accounts window : Max users count : " << MAX_USERS_COUNT;
+        QMessageBox::warning(this, "Max users", "You can't add more than " + QString::number(MAX_USERS_COUNT) + " users");
+        return;
+    }
+
     AccountEditorWindow editor(ADD_NEW, "", ACCESS_LEVEL_DEFAULT, false, false);
     editor.setModal(true);
     auto editorRes = editor.exec();

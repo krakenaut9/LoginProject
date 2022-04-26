@@ -25,4 +25,6 @@
 
 #define ACCESS_LEVEL_DEFAULT    "Default"
 #define ACCESS_LEVEL_ADMIN      "Admin"
+
+#define MAX_USERS_COUNT 4
 #endif // PCH_H
