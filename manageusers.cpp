@@ -11,10 +11,12 @@ bool ManageUsers::changeProperty(const QString& user, const QString& key, const 
     QJsonObject::Iterator it;
     if((it = RootObject.find(user)) == RootObject.end())
     {
-        qDebug() << "Change property error : didn't find user "<<user;
+        qDebug() << "Change property : Change property error : didn't find user "<<user;
         return false;
     }
     //Set new value
+    PLOGI << "Change property : " << user << " changes " << key;
+
     qDebug()<<user<<" sets " <<key<<" to "<< newValue.toString();
     QJsonValueRef valueRef = it.value();
     QJsonObject userObj = valueRef.toObject();

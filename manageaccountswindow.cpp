@@ -14,6 +14,7 @@ ManageAccountsWindow::ManageAccountsWindow(QWidget *parent) :
 
     if(!jsonFile.open(QIODevice::ReadOnly | QIODevice::Text | QIODevice::ExistingOnly))
     {
+        PLOGE << "Manage accounts window : Failed to open json file";
         qDebug() << "Failed to open json file";
         return;
     }
@@ -54,11 +55,13 @@ void ManageAccountsWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item
     auto execRes = editor.exec();
     if(execRes == QDialog::Rejected)
     {
+        PLOGI << "Manage accounts window : Account editor rejected";
         qDebug() << "Editor rejected";
         return;
     }
     else if(execRes == QDialog::Accepted)
     {
+        PLOGI << "Manage accounts window : Account editor accepted";
         qDebug() << "Editor accepted";
         if(editor.getChangePass())
         {
@@ -79,8 +82,6 @@ void ManageAccountsWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item
         }
         return;
     }
-    qDebug() << "I don't know how did you got here lol\n"
-                "Just a kek comment 15.04.22 23:13";
 }
 
 
@@ -92,6 +93,7 @@ void ManageAccountsWindow::on_addButton_clicked()
     auto editorRes = editor.exec();
     if(editorRes == QDialog::Rejected)
     {
+        PLOGI << "Manage accounts window : Account editor(add) rejected";
         qDebug() << "Editor rejected";
         return;
     }
@@ -107,6 +109,10 @@ void ManageAccountsWindow::on_addButton_clicked()
         qDebug() << "Failed to add a new user";
         return;
     }
+
+    PLOGI << "Manage accounts window : New user name - " << editor.getUserName();
+    PLOGI << "Manage accounts window : Restricted password - " << editor.getRestrictedState();
+    PLOGI << "Manage accounts window : Blocked - " << editor.getBlockedState();
     auto newItem = new QTreeWidgetItem(ui->treeWidget);
     newItem->setText(0, editor.getUserName());
     newItem->setText(1, editor.getBlockedState() ? "true" : "false");
@@ -135,7 +141,12 @@ void ManageAccountsWindow::deleteMenu()
     bool deleteRes = ManageUsers::deleteUser(item->text(0));
     if(deleteRes)
     {
+        PLOGI << "Manage accounts window : " << item->text(0) << " deleted";
         delete item;
+    }
+    else
+    {
+        PLOGE << "Manage accounts window : " << item->text(0) << " failed to delete";
     }
 }
 

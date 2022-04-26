@@ -14,6 +14,7 @@ ChPassWindow::ChPassWindow(QString userName, QWidget *parent) :
 
     if(!jsonFile.open(QIODevice::ReadOnly | QIODevice::Text | QIODevice::ExistingOnly))
     {
+        PLOGE << "Change password window : Failed to open json file";
         qDebug() << "Change password window : Failed to open json file";
         return;
     }
@@ -33,6 +34,7 @@ ChPassWindow::~ChPassWindow()
 
 void ChPassWindow::changeButtonClicked()
 {
+    PLOGI << "Change password window : User "<< m_userName << " tries to change the password";
     qDebug() << "Change button clicked";
     QJsonObject RootObject;
 
@@ -40,13 +42,15 @@ void ChPassWindow::changeButtonClicked()
     QJsonObject::iterator it = RootObject.find(m_userName);
     if(it == RootObject.end())
     {
-        qDebug() << "Change password window : Did find such user";
+        PLOGE << "Change password window : No such user";
+        qDebug() << "Change password window : No such user";
         ui->informLabel->setText("No such user");
         return;
     }
 
     if(it.value().toObject()[PASSWORD] != ui->oldPassLineEdit->text())
     {
+        PLOGW << "Change password window : Incorrect password";
         qDebug() << "Change password window : Incorrect password";
         ui->informLabel->setText("Incorrect password");
         ui->oldPassLineEdit->clear();
@@ -85,6 +89,7 @@ void ChPassWindow::changeButtonClicked()
     {
         if(!ManageUsers::isPasswordValid(firstNewPassword))
         {
+            PLOGW << "Change password window : Incorrect new password";
             qDebug() << "Incorrect new password";
             ui->informLabel->setText("Incorrect new password. The password must contain numbers and symbols +-*/=%()^:");
             ui->firstNewPassLineEdit->setFocus();
@@ -93,6 +98,7 @@ void ChPassWindow::changeButtonClicked()
     }
 
     ManageUsers::changeProperty(m_userName, PASSWORD, firstNewPassword);
+    PLOGI << "Change password window : New password accepted";
     accept();
 
 }

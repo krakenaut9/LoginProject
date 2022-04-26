@@ -15,8 +15,9 @@ int main(int argc, char *argv[])
         QFile usersFile(USERS_FILE);
         if(!usersFile.open(QIODevice::NewOnly | QIODevice::ReadWrite | QIODevice::Text))
         {
-           qDebug()<<"New file creation failed";
-           return QFile::FatalError;
+            PLOG_ERROR<<"New file creation failed";
+            qDebug()<<"New file creation failed";
+            return QFile::FatalError;
         }
         QJsonObject mainObject;
         QJsonObject adminUser;
@@ -34,6 +35,7 @@ int main(int argc, char *argv[])
     LoginWindow lw;
     if(lw.exec() == QDialog::Accepted)
     {
+        PLOGI << "User : " << lw.GetUserName() << " logged in successfully";
         qDebug()<<"Login and password are correct";
         MainWindow w(lw.GetUserName());
         w.show();
@@ -41,7 +43,8 @@ int main(int argc, char *argv[])
     }
     else
     {
-        qDebug()<<"Incorrect Login and password";
+        PLOGW << "Login window rejected";
+        qDebug()<<"Login window rejected";
         return 1;
     }
     return 0;

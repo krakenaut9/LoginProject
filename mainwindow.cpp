@@ -48,19 +48,17 @@ MainWindow::~MainWindow()
 
 void MainWindow::changeMyPassword()
 {
+    PLOGI << "Main window : Change password (" << m_userName << ")";
     qDebug()<<"Change password";
     ChPassWindow chPassWindow(m_userName);
     chPassWindow.setModal(true);
     chPassWindow.exec();
 }
 
-void MainWindow::showAccountInformation()
-{
-    qDebug()<<"Show information";
-}
 
 void MainWindow::manageAccounts()
 {
+    PLOGI << "Main window : Manage accounts";
     qDebug()<<"Manage accounts";
     ManageAccountsWindow manageWindow;
     manageWindow.setModal(true);

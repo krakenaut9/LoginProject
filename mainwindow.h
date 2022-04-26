@@ -17,7 +17,6 @@ public:
 
 public slots:
     void changeMyPassword();
-    void showAccountInformation();
     void manageAccounts();
     void aboutAuthor();
     void usedTechnologies();
