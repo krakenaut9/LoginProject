@@ -10,6 +10,7 @@ MainWindow::MainWindow(const QString& userName, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , m_userName(userName)
+    , m_timer(new QTimer(this))
 {
     ui->setupUi(this);
     ui->statusbar->showMessage("User : " + m_userName);
@@ -37,6 +38,9 @@ MainWindow::MainWindow(const QString& userName, QWidget *parent)
     connect(actionAboutAuthor, &QAction::triggered, this, &MainWindow::aboutAuthor);
     auto actionUsedTechnologies = menuAbout->addAction("Used technologies");
     connect(actionUsedTechnologies, &QAction::triggered, this, &MainWindow::usedTechnologies);
+
+    connect(m_timer, &QTimer::timeout, this, &MainWindow::reAuthTimer);
+    m_timer->start(TIME_INTERVAL);
 
     setWindowTitle("Main Window : " + userName);
 }
@@ -81,3 +85,10 @@ void MainWindow::usedTechnologies()
     techWindow.exec();
 }
 
+void MainWindow::reAuthTimer()
+{
+    qDebug() << "Re auth timer";
+    m_timer->stop();
+
+    m_timer->start();
+}

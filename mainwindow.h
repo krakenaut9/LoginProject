@@ -20,8 +20,10 @@ public slots:
     void manageAccounts();
     void aboutAuthor();
     void usedTechnologies();
+    void reAuthTimer();
 private:
     Ui::MainWindow *ui;
     QString m_userName;
+    QTimer* m_timer;
 };
 #endif // MAINWINDOW_H

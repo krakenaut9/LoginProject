@@ -87,7 +87,6 @@ bool ManageUsers::addUser(const QString& userName, QJsonObject userProperties)
 
 bool ManageUsers::deleteUser(const QString& userName)
 {
-    QString newUserName = userName.toLower();
     QFile file(USERS_FILE);
     file.open(QIODevice::ReadOnly | QIODevice::Text | QIODevice::ExistingOnly);
     QJsonParseError JsonParseError;
@@ -112,9 +111,5 @@ bool ManageUsers::deleteUser(const QString& userName)
 
 QString ManageUsers::encryptPassword(const QString& password, const quint64 randNum)
 {
-    qDebug() << "Hash = " << qHash(password);
-    qDebug() << "Sin  = " << qSin(qHash(password));
-    qDebug() << "rand = " << randNum;
-    qDebug() << QString::number(static_cast<qint64>(randNum / qSin(qHash(password))));
     return QString::number(static_cast<qint64>(randNum / qSin(qHash(password))));
 }

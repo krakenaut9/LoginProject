@@ -9,6 +9,7 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QRandomGenerator>
+#include <QTimer>
 
 #include <plog/Log.h>
 
@@ -20,6 +21,8 @@
 #define RESTRICTED_PASSWORD "Restricted password"
 #define IS_BLOCKED "Is blocked"
 #define ACCESS_LEVEL "Access level"
+
+#define TIME_INTERVAL 5 *  1000
 
 #define ADD_NEW     "Add new"
 #define EDIT        "Edit"
