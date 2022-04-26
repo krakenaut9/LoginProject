@@ -79,7 +79,9 @@ void LoginWindow::on_loginButton_clicked()
         return;
     }
 
-    if(userObjectIterator.value().toObject()[PASSWORD] != password)
+    quint64 randomNumber = QRandomGenerator::securelySeeded().generate64();
+
+    if(ManageUsers::encryptPassword(userObjectIterator.value().toObject()[PASSWORD].toString(), randomNumber) != ManageUsers::encryptPassword(password, randomNumber))
     {
         PLOGW << "Incorrect password";
         qDebug() << "Incorrect password";

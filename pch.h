@@ -8,6 +8,7 @@
 #include <QJsonValue>
 #include <QFile>
 #include <QMessageBox>
+#include <QRandomGenerator>
 
 #include <plog/Log.h>
 

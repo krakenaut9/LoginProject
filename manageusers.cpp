@@ -109,3 +109,12 @@ bool ManageUsers::deleteUser(const QString& userName)
     file.close();
     return true;
 }
+
+QString ManageUsers::encryptPassword(const QString& password, const quint64 randNum)
+{
+    qDebug() << "Hash = " << qHash(password);
+    qDebug() << "Sin  = " << qSin(qHash(password));
+    qDebug() << "rand = " << randNum;
+    qDebug() << QString::number(static_cast<qint64>(randNum / qSin(qHash(password))));
+    return QString::number(static_cast<qint64>(randNum / qSin(qHash(password))));
+}
