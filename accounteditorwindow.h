@@ -15,6 +15,7 @@ class AccountEditorWindow : public QDialog
 public:
     explicit AccountEditorWindow(QString winType,
                                  QString userName,
+                                 QString accessLevel,
                                  bool isBlocked,
                                  bool isRestricted,
                                  QWidget *parent = nullptr);
@@ -25,12 +26,14 @@ public:
     void setBlocked(bool blockedState);
     void setPasswordRestriction(bool restrictionState);
     void setChangePass(bool changeState);
+    void setAccessLevel(const QString level);
 
     QString getUserName()const noexcept;
     QString getPassword()const noexcept;
     bool getBlockedState()const noexcept;
     bool getRestrictedState()const noexcept;
     bool getChangePass()const noexcept;
+    QString getAccessLevel()const noexcept;
 private slots:
     void on_okButton_clicked();
 
@@ -45,6 +48,7 @@ private:
     QString m_userName;
     QString m_password;
     QString m_winType;
+    QString m_accessLevel;
     bool m_isBlocked;
     bool m_isPasswordRestricted;
     bool m_changePass;

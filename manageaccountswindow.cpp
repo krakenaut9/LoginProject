@@ -27,6 +27,7 @@ ManageAccountsWindow::ManageAccountsWindow(QWidget *parent) :
         item->setText(0, it.key());
         item->setText(1, it.value().toObject()[IS_BLOCKED].toBool() ? "true" : "false");
         item->setText(2, it.value().toObject()[RESTRICTED_PASSWORD].toBool() ? "true" : "false");
+        item->setText(3, it.value().toObject()[ACCESS_LEVEL].toString());
         ui->treeWidget->addTopLevelItem(item);
     }
     ui->treeWidget->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -44,10 +45,12 @@ void ManageAccountsWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item
     QString userName = item->text(0);
     bool isBlocked = item->text(1) == "true" ? true : false;
     bool isRestricted = item->text(2) == "true" ? true : false;
+    QString accessLevel = item->text(3);
     qDebug() << "Double clicked : " << userName;
     AccountEditorWindow editor(
                 EDIT,
                 userName,
+                accessLevel,
                 isBlocked,
                 isRestricted
                 );
@@ -80,6 +83,12 @@ void ManageAccountsWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item
             ManageUsers::changeProperty(userName, RESTRICTED_PASSWORD, editor.getRestrictedState());
             item->setText(2, editor.getRestrictedState() ? "true" : "false");
         }
+        if(accessLevel != editor.getAccessLevel())
+        {
+            qDebug() << "Change Access level";
+            ManageUsers::changeProperty(userName, ACCESS_LEVEL, editor.getAccessLevel());
+            item->setText(3, editor.getAccessLevel());
+        }
         return;
     }
 }
@@ -88,7 +97,7 @@ void ManageAccountsWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item
 void ManageAccountsWindow::on_addButton_clicked()
 {
     qDebug() << "Add new clicked";
-    AccountEditorWindow editor(ADD_NEW, "", false, false);
+    AccountEditorWindow editor(ADD_NEW, "", ACCESS_LEVEL_DEFAULT, false, false);
     editor.setModal(true);
     auto editorRes = editor.exec();
     if(editorRes == QDialog::Rejected)
@@ -103,6 +112,7 @@ void ManageAccountsWindow::on_addButton_clicked()
     userData.insert(PASSWORD, editor.getChangePass() ? editor.getPassword() : "");
     userData.insert(RESTRICTED_PASSWORD, editor.getRestrictedState());
     userData.insert(FIRST_LOGIN, true);
+    userData.insert(ACCESS_LEVEL, editor.getAccessLevel());
     bool addRes = ManageUsers::addUser(editor.getUserName(), userData);
     if(addRes == false)
     {
@@ -113,10 +123,12 @@ void ManageAccountsWindow::on_addButton_clicked()
     PLOGI << "Manage accounts window : New user name - " << editor.getUserName();
     PLOGI << "Manage accounts window : Restricted password - " << editor.getRestrictedState();
     PLOGI << "Manage accounts window : Blocked - " << editor.getBlockedState();
+    PLOGI << "Manage accounts window : Access level - " << editor.getAccessLevel();
     auto newItem = new QTreeWidgetItem(ui->treeWidget);
     newItem->setText(0, editor.getUserName());
     newItem->setText(1, editor.getBlockedState() ? "true" : "false");
     newItem->setText(2, editor.getRestrictedState() ? "true" : "false");
+    newItem->setText(3, editor.getAccessLevel());
     ui->treeWidget->addTopLevelItem(newItem);
 }
 

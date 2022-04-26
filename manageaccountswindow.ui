@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>450</width>
+    <width>531</width>
     <height>400</height>
    </rect>
   </property>
@@ -28,7 +28,12 @@
      </column>
      <column>
       <property name="text">
-       <string>Password restricted</string>
+       <string>Restricted pass</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Access level</string>
       </property>
      </column>
     </widget>

@@ -18,8 +18,11 @@
 #define ADMIN       "admin"
 #define RESTRICTED_PASSWORD "Restricted password"
 #define IS_BLOCKED "Is blocked"
+#define ACCESS_LEVEL "Access level"
 
 #define ADD_NEW     "Add new"
 #define EDIT        "Edit"
 
+#define ACCESS_LEVEL_DEFAULT    "Default"
+#define ACCESS_LEVEL_ADMIN      "Admin"
 #endif // PCH_H

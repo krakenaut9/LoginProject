@@ -3,6 +3,7 @@
 
 AccountEditorWindow::AccountEditorWindow(QString winType,
                                          QString userName,
+                                         QString accessLevel,
                                          bool isBlocked,
                                          bool isRestricted,
                                          QWidget *parent) :
@@ -11,6 +12,7 @@ AccountEditorWindow::AccountEditorWindow(QString winType,
     m_userName(userName),
     m_password(""),
     m_winType(winType),
+    m_accessLevel(accessLevel),
     m_isBlocked(isBlocked),
     m_isPasswordRestricted(isRestricted)
 {
@@ -37,6 +39,7 @@ AccountEditorWindow::AccountEditorWindow(QString winType,
     if(userName == ADMIN)
     {
         ui->blockedCheckBox->setDisabled(true);
+        ui->accessLevelComboBox->setDisabled(true);
     }
 
     if(winType == EDIT)
@@ -47,6 +50,10 @@ AccountEditorWindow::AccountEditorWindow(QString winType,
     {
         ui->changePassCheckBox->setToolTip("Empty/not empty password");
     }
+
+    ui->accessLevelComboBox->addItem(ACCESS_LEVEL_DEFAULT);
+    ui->accessLevelComboBox->addItem(ACCESS_LEVEL_ADMIN);
+    ui->accessLevelComboBox->setCurrentText(m_accessLevel);
     ui->restrictedPassCheckBox->setToolTip("User can change his password only to one that contains numbers and symbols +-*/=%()^:");
     ui->restrictedPassLabel->setToolTip("User can change his password only to one that contains numbers and symbols +-*/=%()^:");
     setWindowTitle(winType);
@@ -79,6 +86,11 @@ void AccountEditorWindow::setChangePass(bool changeState)
     m_changePass = changeState;
 }
 
+void AccountEditorWindow::setAccessLevel(const QString level)
+{
+    m_accessLevel = level;
+}
+
 QString AccountEditorWindow::getUserName()const noexcept
 {
     return m_userName;
@@ -101,6 +113,11 @@ bool AccountEditorWindow::getChangePass()const noexcept
     return m_changePass;
 }
 
+QString AccountEditorWindow::getAccessLevel()const noexcept
+{
+    return m_accessLevel;
+}
+
 void AccountEditorWindow::on_okButton_clicked()
 {
     m_userName = ui->userNameLineEdit->text();
@@ -108,6 +125,7 @@ void AccountEditorWindow::on_okButton_clicked()
     m_isBlocked = ui->blockedCheckBox->checkState() == Qt::Checked ? true : false;
     m_isPasswordRestricted = ui->restrictedPassCheckBox->checkState() == Qt::Checked ? true : false;
     m_changePass = ui->changePassCheckBox->checkState() == Qt::Checked ? true : false;
+    m_accessLevel = ui->accessLevelComboBox->currentText();
 }
 
 

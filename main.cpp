@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
         adminUser.insert(IS_BLOCKED, false);
         adminUser.insert(RESTRICTED_PASSWORD, false);
         adminUser.insert(FIRST_LOGIN, true);
+        adminUser.insert(ACCESS_LEVEL, ACCESS_LEVEL_ADMIN);
         mainObject.insert(ADMIN, adminUser);
         QJsonDocument jsonDoc(mainObject);
         qDebug() << jsonDoc.toJson(QJsonDocument::Indented);
