@@ -4,7 +4,6 @@
 #include <QRegExp>
 #include <QtMath>
 
-#define QUESTIONS_COUNT 20
 
 static QString s_questionsArray[QUESTIONS_COUNT] = {
     "What was your childhood nickname?",
@@ -26,7 +25,7 @@ static QString s_questionsArray[QUESTIONS_COUNT] = {
     "What color are your mother's eyes?",
     "What was the name of your first animal?",
     "What is your favorite color?",
-    "What school did you attend in sixth grade?",
+    "What school did you attend in sixth grade?"
 };
 
 namespace ManageUsers {
@@ -37,7 +36,7 @@ namespace ManageUsers {
     QFile::FileError initUsersFile(const QString& fileName);
     QFile::FileError initQuestionsFile(const QString fileName);
     QString encryptPassword(const QString& password, const quint64 randNum);
-
+    bool addAnswers(const QString& userName, const QVector<QString> answers);
 }
 
 #endif // MANAGEUSERS_H

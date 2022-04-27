@@ -5,6 +5,8 @@
 #include <QFile>
 #include <pch.h>
 #include "plog/Initializers/RollingFileInitializer.h"
+#include <questioncheckwindow.h>
+#include <manageusers.h>
 
 int main(int argc, char *argv[])
 {
@@ -32,6 +34,16 @@ int main(int argc, char *argv[])
         if(lw.GetFirstLogin())
         {
             qDebug() << "User Logged in for the first time";
+            QuestionCheckWindow Questions(lw.GetUserName(), ADD_ANSWERS);
+            if(Questions.exec() == QDialog::Accepted)
+            {
+                qDebug() << "Questions window accepted";
+            }
+            else
+            {
+                qDebug() << "Questions window rejected";
+                return 4;
+            }
         }
 
         PLOGI << "User : " << lw.GetUserName() << " logged in successfully";

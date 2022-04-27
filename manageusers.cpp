@@ -167,3 +167,35 @@ QString ManageUsers::encryptPassword(const QString& password, const quint64 rand
 {
     return QString::number(static_cast<qint64>(randNum / qSin(qHash(password))));
 }
+
+bool ManageUsers::addAnswers(const QString& userName, const QVector<QString> answers)
+{
+    QFile file(USERS_FILE);
+    file.open(QIODevice::ReadOnly | QIODevice::Text | QIODevice::ExistingOnly);
+    QJsonParseError JsonParseError;
+    QJsonDocument JsonDocument = QJsonDocument::fromJson(file.readAll(), &JsonParseError);
+    file.close();
+    QJsonObject RootObject = JsonDocument.object();
+    if(userName.isEmpty())
+    {
+        qDebug() << "Empty user name";
+        QMessageBox::warning(nullptr, "Incorrect name", "Empty user name");
+        return false;
+    }
+    auto userIt = RootObject.find(userName);
+    QJsonArray answersArray;
+    for(auto& answer : answers)
+    {
+        answersArray.push_back(answer);
+    }
+    QJsonValueRef valueRef = userIt.value();
+    QJsonObject userObj = valueRef.toObject();
+    userObj[ANSWERS] = answersArray;
+    valueRef = userObj;
+    JsonDocument.setObject(RootObject); // set to json document
+    file.open(QFile::WriteOnly | QFile::Text | QFile::Truncate);
+    qDebug() << "Change property writes : "<< JsonDocument.toJson();
+    file.write(JsonDocument.toJson());
+    file.close();
+    return true;
+}
