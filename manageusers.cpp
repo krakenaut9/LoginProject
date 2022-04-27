@@ -199,3 +199,32 @@ bool ManageUsers::addAnswers(const QString& userName, const QVector<QString> ans
     file.close();
     return true;
 }
+
+bool ManageUsers::isAnswersCorrect(const QString& userName, const QVector<QString> answers, const QVector<int> questions)
+{
+    QFile file(USERS_FILE);
+    file.open(QIODevice::ReadOnly | QIODevice::Text | QIODevice::ExistingOnly);
+    QJsonParseError JsonParseError;
+    QJsonDocument JsonDocument = QJsonDocument::fromJson(file.readAll(), &JsonParseError);
+    file.close();
+    QJsonObject RootObject = JsonDocument.object();
+    if(userName.isEmpty())
+    {
+        qDebug() << "Empty user name";
+        QMessageBox::warning(nullptr, "Incorrect name", "Empty user name");
+        return false;
+    }
+    auto userIt = RootObject.find(userName);
+    auto answersArray = userIt.value().toObject()[ANSWERS].toArray();
+
+    for(size_t i  = 0; i < answers.size(); ++i)
+    {
+        if(answers[i] != answersArray[questions[i]].toString())
+        {
+            qDebug() << "Incorrect " << i+1<<" answer to " << questions[i] << " question : " << s_questionsArray[questions[i]];
+            qDebug() << answers[i] << " != " <<answersArray[questions[i]].toString();
+            return false;
+        }
+    }
+    return true;
+}

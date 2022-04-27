@@ -27,6 +27,7 @@ private slots:
 
 private:
     QVector<QString> m_answers;
+    QVector<int> m_questionsToCheck;
     Ui::QuestionCheckWindow *ui;
     QString m_userName;
     QString m_winType;

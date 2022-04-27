@@ -4,6 +4,7 @@
 #include <technologieswindow.h>
 #include <chpasswindow.h>
 #include <manageaccountswindow.h>
+#include <questioncheckwindow.h>
 #include <pch.h>
 
 MainWindow::MainWindow(const QString& userName, QWidget *parent)
@@ -90,15 +91,22 @@ void MainWindow::reAuthTimer()
     PLOGI << "Reauthentication time";
     qDebug() << "Re auth timer";
     m_timer->stop();
-    if(QRandomGenerator::securelySeeded().generate() & 1)
+
+    PLOGI << "Reauthentication : Questions";
+    qDebug() << "Questions";
+
+    QuestionCheckWindow questionsCheck(m_userName, ANSWER_THE_QUESTIONS);
+    if(questionsCheck.exec() == QDialog::Accepted)
     {
-        PLOGI << "Reauthentication : Password recheck";
-        qDebug() << "Password recheck";
+        qDebug() << "Questions check accepted";
+
     }
-    else
-    {
-        PLOGI << "Reauthentication : Questions";
-        qDebug() << "Questions";
+    else{
+        qDebug()<< "Questions check rejected";
+        QMessageBox::critical(this, "Fail", "Reauthentication failed");
+        QApplication::quit();
+        return;
     }
+
     m_timer->start();
 }

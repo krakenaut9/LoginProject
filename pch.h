@@ -30,6 +30,7 @@
 
 
 #define QUESTIONS_COUNT 20
+#define QUESTIONS_TO_CHECK 3
 
 #define ACCESS_LEVEL_DEFAULT    "Default"
 #define ACCESS_LEVEL_ADMIN      "Admin"

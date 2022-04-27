@@ -115,7 +115,7 @@ void LoginWindow::on_loginButton_clicked()
 
     if(firstLogin)
     {
-        //ManageUsers::changeProperty(userName, FIRST_LOGIN, false);
+        ManageUsers::changeProperty(userName, FIRST_LOGIN, false);
     }
     accept();
     SetUserName(userName);
