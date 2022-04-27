@@ -18,6 +18,9 @@ public:
     QString GetUserName()const noexcept;
     void SetUserName(const QString& userName);
 
+    bool GetFirstLogin()const noexcept;
+    void SetFirstLogin(const bool isFirstLogin);
+
 private slots:
     void on_loginButton_clicked();
 
@@ -31,6 +34,7 @@ private:
     Ui::LoginWindow *ui;
     QString m_userName;
     QJsonDocument m_jsonDocument;
+    bool m_firstLogin;
 };
 
 #endif // LOGINWINDOW_H

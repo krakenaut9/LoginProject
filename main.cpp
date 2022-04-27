@@ -29,6 +29,11 @@ int main(int argc, char *argv[])
     LoginWindow lw;
     if(lw.exec() == QDialog::Accepted)
     {
+        if(lw.GetFirstLogin())
+        {
+            qDebug() << "User Logged in for the first time";
+        }
+
         PLOGI << "User : " << lw.GetUserName() << " logged in successfully";
         qDebug()<<"Login and password are correct";
         MainWindow w(lw.GetUserName());

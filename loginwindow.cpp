@@ -3,8 +3,8 @@
 #include <manageusers.h>
 LoginWindow::LoginWindow(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::LoginWindow)
-
+    ui(new Ui::LoginWindow),
+    m_firstLogin(false)
 {
     QFile jsonFile(USERS_FILE);
     ui->setupUi(this);
@@ -67,6 +67,7 @@ void LoginWindow::on_loginButton_clicked()
         ui->informLabel->setText("No such user");
         ui->usernameLineEdit->setFocus();
         firstIteration = true;
+        m_firstLogin = false;
         return;
     }
 
@@ -104,6 +105,7 @@ void LoginWindow::on_loginButton_clicked()
     {
         PLOGW << "First login iteration for user : " << userName;
         qDebug() << "First login";
+        m_firstLogin = true;
         ui->informLabel->setText("Please enter the password one more time");
         ui->passwordLineEdit->setFocus();
         ui->passwordLineEdit->clear();
@@ -139,6 +141,15 @@ QString LoginWindow::GetUserName()const noexcept
 void LoginWindow::SetUserName(const QString& userName)
 {
     m_userName = userName;
+}
+
+bool LoginWindow::GetFirstLogin()const noexcept
+{
+    return m_firstLogin;
+}
+void LoginWindow::SetFirstLogin(const bool isFirstLogin)
+{
+    m_firstLogin = isFirstLogin;
 }
 
 void LoginWindow::on_usernameLineEdit_editingFinished()
