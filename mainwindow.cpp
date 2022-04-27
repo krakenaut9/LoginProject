@@ -87,8 +87,18 @@ void MainWindow::usedTechnologies()
 
 void MainWindow::reAuthTimer()
 {
+    PLOGI << "Reauthentication time";
     qDebug() << "Re auth timer";
     m_timer->stop();
-
+    if(QRandomGenerator::securelySeeded().generate() & 1)
+    {
+        PLOGI << "Reauthentication : Password recheck";
+        qDebug() << "Password recheck";
+    }
+    else
+    {
+        PLOGI << "Reauthentication : Questions";
+        qDebug() << "Questions";
+    }
     m_timer->start();
 }
