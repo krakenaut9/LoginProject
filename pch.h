@@ -11,6 +11,8 @@
 #include <QRandomGenerator>
 #include <QTimer>
 
+#include <manageusers.h>
+
 #include <plog/Log.h>
 
 #define USERS_FILE  "users.json"
@@ -23,6 +25,7 @@
 #define ACCESS_LEVEL "Access level"
 
 #define TIME_INTERVAL 5 *  1000
+#define QUESTIONS_FILE "questions.json"
 
 #define ADD_NEW     "Add new"
 #define EDIT        "Edit"

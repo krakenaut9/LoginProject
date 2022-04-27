@@ -109,6 +109,60 @@ bool ManageUsers::deleteUser(const QString& userName)
     return true;
 }
 
+QFile::FileError ManageUsers::initUsersFile(const QString& fileName)
+{
+    if(!QFile(fileName).exists())
+    {
+        QFile usersFile(fileName);
+        if(!usersFile.open(QIODevice::NewOnly | QIODevice::ReadWrite | QIODevice::Text))
+        {
+            PLOG_ERROR<<"New users file creation failed";
+            qDebug()<<"New usersfile creation failed";
+            return QFile::FatalError;
+        }
+        QJsonObject mainObject;
+        QJsonObject adminUser;
+        adminUser.insert(PASSWORD, "");
+        adminUser.insert(IS_BLOCKED, false);
+        adminUser.insert(RESTRICTED_PASSWORD, false);
+        adminUser.insert(FIRST_LOGIN, true);
+        adminUser.insert(ACCESS_LEVEL, ACCESS_LEVEL_ADMIN);
+        mainObject.insert(ADMIN, adminUser);
+        QJsonDocument jsonDoc(mainObject);
+        qDebug() << jsonDoc.toJson(QJsonDocument::Indented);
+        usersFile.write(jsonDoc.toJson(QJsonDocument::Indented));
+        usersFile.close();
+    }
+    return QFile::NoError;
+}
+
+QFile::FileError ManageUsers::initQuestionsFile(const QString fileName)
+{
+    if(!QFile(fileName).exists())
+    {
+        QFile usersFile(fileName);
+        if(!usersFile.open(QIODevice::NewOnly | QIODevice::ReadWrite | QIODevice::Text))
+        {
+            PLOG_ERROR<<"New questions file creation failed";
+            qDebug()<<"New questions file creation failed";
+            return QFile::FatalError;
+        }
+        QJsonObject mainObject;
+
+        QJsonArray questionsArray;
+        for(auto& question : s_questionsArray)
+        {
+            questionsArray.push_back(question);
+        }
+        mainObject.insert("Questions", questionsArray);
+        QJsonDocument jsonDoc(mainObject);
+        qDebug() << jsonDoc.toJson(QJsonDocument::Indented);
+        usersFile.write(jsonDoc.toJson(QJsonDocument::Indented));
+        usersFile.close();
+    }
+    return QFile::NoError;
+}
+
 QString ManageUsers::encryptPassword(const QString& password, const quint64 randNum)
 {
     return QString::number(static_cast<qint64>(randNum / qSin(qHash(password))));

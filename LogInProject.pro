@@ -20,6 +20,7 @@ SOURCES += \
     mainwindow.cpp \
     manageaccountswindow.cpp \
     manageusers.cpp \
+    questioncheckwindow.cpp \
     technologieswindow.cpp
 
 HEADERS += \
@@ -31,6 +32,7 @@ HEADERS += \
     manageaccountswindow.h \
     manageusers.h \
     pch.h \
+    questioncheckwindow.h \
     technologieswindow.h
 
 FORMS += \
@@ -40,6 +42,7 @@ FORMS += \
     loginwindow.ui \
     mainwindow.ui \
     manageaccountswindow.ui \
+    questioncheckwindow.ui \
     technologieswindow.ui
 
 # Default rules for deployment.

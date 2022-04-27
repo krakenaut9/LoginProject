@@ -10,28 +10,21 @@ int main(int argc, char *argv[])
 {
     plog::init(plog::info, "LogFile.log");
     PLOGI << "Program started";
-    if(!QFile(USERS_FILE).exists())
+
+    if(ManageUsers::initUsersFile(USERS_FILE) != QFile::NoError)
     {
-        QFile usersFile(USERS_FILE);
-        if(!usersFile.open(QIODevice::NewOnly | QIODevice::ReadWrite | QIODevice::Text))
-        {
-            PLOG_ERROR<<"New file creation failed";
-            qDebug()<<"New file creation failed";
-            return QFile::FatalError;
-        }
-        QJsonObject mainObject;
-        QJsonObject adminUser;
-        adminUser.insert(PASSWORD, "");
-        adminUser.insert(IS_BLOCKED, false);
-        adminUser.insert(RESTRICTED_PASSWORD, false);
-        adminUser.insert(FIRST_LOGIN, true);
-        adminUser.insert(ACCESS_LEVEL, ACCESS_LEVEL_ADMIN);
-        mainObject.insert(ADMIN, adminUser);
-        QJsonDocument jsonDoc(mainObject);
-        qDebug() << jsonDoc.toJson(QJsonDocument::Indented);
-        usersFile.write(jsonDoc.toJson(QJsonDocument::Indented));
-        usersFile.close();
+        qDebug("Init users file failed");
+        PLOGF << "Init users file failed";
+        return 2;
     }
+
+    if(ManageUsers::initQuestionsFile(QUESTIONS_FILE) != QFile::NoError)
+    {
+        qDebug("Init questions file failed");
+        PLOGF << "Init questions file failed";
+        return 3;
+    }
+
     QApplication a(argc, argv);
     LoginWindow lw;
     if(lw.exec() == QDialog::Accepted)
