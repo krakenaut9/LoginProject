@@ -221,6 +221,7 @@ bool ManageUsers::isAnswersCorrect(const QString& userName, const QVector<QStrin
     {
         if(answers[i] != answersArray[questions[i]].toString())
         {
+            PLOGW    << "Incorrect " << i+1<<" answer to " << questions[i] << " question : " << s_questionsArray[questions[i]];
             qDebug() << "Incorrect " << i+1<<" answer to " << questions[i] << " question : " << s_questionsArray[questions[i]];
             qDebug() << answers[i] << " != " <<answersArray[questions[i]].toString();
             return false;

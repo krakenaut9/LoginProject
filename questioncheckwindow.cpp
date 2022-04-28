@@ -68,6 +68,7 @@ void QuestionCheckWindow::on_nextPushButton_clicked()
     if(ui->answerLineEdit->text().isEmpty())
     {
         qDebug() << "Empty " << m_questionIndex + 1 << " answer";
+        PLOGI << "Empty " << m_questionIndex + 1 << " answer";
         return;
     }
     if(m_questionIndex == (m_winType == ADD_ANSWERS ? QUESTIONS_COUNT : QUESTIONS_TO_CHECK) - 2)
@@ -90,6 +91,7 @@ void QuestionCheckWindow::on_nextPushButton_clicked()
         if(m_questionIndex == QUESTIONS_COUNT - 1)
         {
             qDebug() << "Confirm";
+            PLOGI << m_userName << " confirms his answers";
             ManageUsers::addAnswers(m_userName, m_answers);
 
             accept();
@@ -105,12 +107,14 @@ void QuestionCheckWindow::on_nextPushButton_clicked()
             qDebug() << "Confirm check";
             if(ManageUsers::isAnswersCorrect(m_userName, m_answers, m_questionsToCheck))
             {
+                PLOGI << m_userName << " : answers are correct. Continue";
                 qDebug() << "Answers are correct";
                 accept();
                 return;
             }
             else
             {
+                PLOGW << m_userName << " : answera are not correct. Close an application";
                 qDebug() << "Answers are not correct";
                 reject();
                 return;
@@ -153,9 +157,5 @@ void QuestionCheckWindow::on_prevPushButton_clicked()
         ui->questionLabel->setText(s_questionsArray[m_questionsToCheck[m_questionIndex]]);
     ui->prevPushButton->setText("Previous(" + QString::number(m_questionIndex) + ')');
     ui->nextPushButton->setText("Next(" + QString::number(m_questionIndex + 2) + ")");
-}
-
-void QuestionCheckWindow::GetAnswers(QVector<QString>& answers)
-{
-    answers.swap(m_answers);
+    ui->answerLineEdit->setFocus();
 }

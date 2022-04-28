@@ -63,6 +63,7 @@ void ChPassWindow::changeButtonClicked()
 
     if(firstNewPassword.isEmpty() || secondNewPassword.isEmpty())
     {
+        PLOGI << "Change password window : empty password";
         qDebug() << "Change password window : empty password";
         ui->informLabel->setText("Empty passwords are not allowed");
         if(firstNewPassword.isEmpty())
@@ -78,6 +79,7 @@ void ChPassWindow::changeButtonClicked()
 
     if(firstNewPassword != secondNewPassword)
     {
+        PLOGI << "Change password window : Passwords are not equal";
         qDebug() << "Change password window : Passwords are not equal";
         ui->informLabel->setText("Passwords are not equal");
         ui->firstNewPassLineEdit->clear();

@@ -97,7 +97,7 @@ void ManageAccountsWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item
 void ManageAccountsWindow::on_addButton_clicked()
 {
     qDebug() << "Add new clicked";
-
+    PLOGI << "Manage accounts window : Add new user";
     if(ui->treeWidget->topLevelItemCount() == MAX_USERS_COUNT)
     {
         qDebug() << "Max users count : " << MAX_USERS_COUNT;
@@ -125,6 +125,7 @@ void ManageAccountsWindow::on_addButton_clicked()
     bool addRes = ManageUsers::addUser(editor.getUserName(), userData);
     if(addRes == false)
     {
+        PLOGW << "Manage accounts window : Failed to add new user";
         qDebug() << "Failed to add a new user";
         return;
     }
@@ -139,6 +140,7 @@ void ManageAccountsWindow::on_addButton_clicked()
     newItem->setText(2, editor.getRestrictedState() ? "true" : "false");
     newItem->setText(3, editor.getAccessLevel());
     ui->treeWidget->addTopLevelItem(newItem);
+    PLOGI << "Manage accounts window : New user successfully added";
 }
 
 void ManageAccountsWindow::editMenu()

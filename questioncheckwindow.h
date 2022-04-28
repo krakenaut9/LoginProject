@@ -17,7 +17,6 @@ class QuestionCheckWindow : public QDialog
 
 public:
     explicit QuestionCheckWindow(QString userName, QString winType, QWidget *parent = nullptr);
-    void GetAnswers(QVector<QString>& answers);
     ~QuestionCheckWindow();
 
 private slots:

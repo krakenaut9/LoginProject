@@ -49,6 +49,7 @@ MainWindow::MainWindow(const QString& userName, QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    PLOGI << "Program finished : " << m_userName;
 }
 
 void MainWindow::changeMyPassword()
@@ -57,7 +58,14 @@ void MainWindow::changeMyPassword()
     qDebug()<<"Change password";
     ChPassWindow chPassWindow(m_userName);
     chPassWindow.setModal(true);
-    chPassWindow.exec();
+    if(chPassWindow.exec() == QDialog::Accepted)
+    {
+        PLOGI << "Password successfully changed";
+    }
+    else
+    {
+        PLOGW << "Change password window rejected";
+    }
 }
 
 
@@ -76,6 +84,7 @@ void MainWindow::aboutAuthor()
     AboutWindow aboutWindow;
     aboutWindow.setModal(true);
     aboutWindow.exec();
+    PLOGI << m_userName << " reads about author";
 }
 
 void MainWindow::usedTechnologies()
@@ -84,6 +93,7 @@ void MainWindow::usedTechnologies()
     TechnologiesWindow techWindow;
     techWindow.setModal(true);
     techWindow.exec();
+    PLOGI << m_userName << " reads about used technologies";
 }
 
 void MainWindow::reAuthTimer()

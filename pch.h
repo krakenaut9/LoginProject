@@ -22,7 +22,7 @@
 #define IS_BLOCKED "Is blocked"
 #define ACCESS_LEVEL "Access level"
 #define ANSWERS "Answers"
-#define TIME_INTERVAL 5 *  1000
+#define TIME_INTERVAL 1 * 60 *  1000
 #define QUESTIONS_FILE "questions.json"
 
 #define ADD_NEW     "Add new"
