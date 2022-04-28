@@ -34,14 +34,17 @@ int main(int argc, char *argv[])
         if(lw.GetFirstLogin())
         {
             qDebug() << "User Logged in for the first time";
+            PLOGI << "User " << lw.GetUserName() << " adds answers to the secret questions";
             QuestionCheckWindow Questions(lw.GetUserName(), ADD_ANSWERS);
             if(Questions.exec() == QDialog::Accepted)
             {
+                PLOGI << "Questions window accepted";
                 qDebug() << "Questions window accepted";
             }
             else
             {
                 qDebug() << "Questions window rejected";
+                PLOGE << "Questions window rejected";
                 return 4;
             }
         }

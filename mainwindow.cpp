@@ -54,7 +54,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::changeMyPassword()
 {
-    PLOGI << "Main window : Change password (" << m_userName << ")";
+    PLOGI << "Main window : " << m_userName << " wants to change their password ";
     qDebug()<<"Change password";
     ChPassWindow chPassWindow(m_userName);
     chPassWindow.setModal(true);
@@ -71,7 +71,7 @@ void MainWindow::changeMyPassword()
 
 void MainWindow::manageAccounts()
 {
-    PLOGI << "Main window : Manage accounts";
+    PLOGI << "Main window : Manage accounts window called";
     qDebug()<<"Manage accounts";
     ManageAccountsWindow manageWindow;
     manageWindow.setModal(true);
@@ -101,9 +101,6 @@ void MainWindow::reAuthTimer()
     PLOGI << "Reauthentication time";
     qDebug() << "Re auth timer";
     m_timer->stop();
-
-    PLOGI << "Reauthentication : Questions";
-    qDebug() << "Questions";
 
     QuestionCheckWindow questionsCheck(m_userName, ANSWER_THE_QUESTIONS);
     if(questionsCheck.exec() == QDialog::Accepted)

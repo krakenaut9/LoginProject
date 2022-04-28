@@ -165,7 +165,7 @@ QFile::FileError ManageUsers::initQuestionsFile(const QString fileName)
 
 QString ManageUsers::encryptPassword(const QString& password, const quint64 randNum)
 {
-    return QString::number(static_cast<qint64>(randNum / qSin(qHash(password))));
+    return QString::number(randNum / qSin(qHash(password)));
 }
 
 bool ManageUsers::addAnswers(const QString& userName, const QVector<QString> answers)

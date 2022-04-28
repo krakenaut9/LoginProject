@@ -22,7 +22,7 @@
 #define IS_BLOCKED "Is blocked"
 #define ACCESS_LEVEL "Access level"
 #define ANSWERS "Answers"
-#define TIME_INTERVAL 1 * 60 *  1000
+#define TIME_INTERVAL 4 * 60 * 1000
 #define QUESTIONS_FILE "questions.json"
 
 #define ADD_NEW     "Add new"
@@ -35,5 +35,5 @@
 #define ACCESS_LEVEL_DEFAULT    "Default"
 #define ACCESS_LEVEL_ADMIN      "Admin"
 
-#define MAX_USERS_COUNT 4
+#define MAX_USERS_COUNT 11
 #endif // PCH_H

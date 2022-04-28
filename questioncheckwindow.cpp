@@ -84,7 +84,7 @@ void QuestionCheckWindow::on_nextPushButton_clicked()
     ui->prevPushButton->setText("Previous(" + QString::number(m_questionIndex + 1) + ')');
     m_answers[m_questionIndex] = ui->answerLineEdit->text();
 
-
+    PLOGI << "User " << m_userName << " answers " << m_questionIndex+1 << " question";
     if(m_winType == ADD_ANSWERS)
     {
 
@@ -145,6 +145,7 @@ void QuestionCheckWindow::on_nextPushButton_clicked()
 void QuestionCheckWindow::on_prevPushButton_clicked()
 {
     qDebug() << "Prev clicked";
+    PLOGI << "User "<<m_userName << " goes to the previous question";
     if(m_questionIndex == 1)
     {
         qDebug() << "return to first";

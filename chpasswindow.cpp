@@ -100,7 +100,6 @@ void ChPassWindow::changeButtonClicked()
     }
 
     ManageUsers::changeProperty(m_userName, PASSWORD, firstNewPassword);
-    PLOGI << "Change password window : New password accepted";
     accept();
 
 }

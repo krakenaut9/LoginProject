@@ -47,6 +47,7 @@ void ManageAccountsWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item
     bool isRestricted = item->text(2) == "true" ? true : false;
     QString accessLevel = item->text(3);
     qDebug() << "Double clicked : " << userName;
+    PLOGI << "Admin atarts editing account : " << userName;
     AccountEditorWindow editor(
                 EDIT,
                 userName,
@@ -164,12 +165,12 @@ void ManageAccountsWindow::deleteMenu()
     bool deleteRes = ManageUsers::deleteUser(item->text(0));
     if(deleteRes)
     {
-        PLOGI << "Manage accounts window : " << item->text(0) << " deleted";
+        PLOGI << "Manage accounts window : user " << item->text(0) << " deleted";
         delete item;
     }
     else
     {
-        PLOGE << "Manage accounts window : " << item->text(0) << " failed to delete";
+        PLOGE << "Manage accounts window : user " << item->text(0) << " failed to delete";
     }
 }
 
