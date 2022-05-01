@@ -7,6 +7,9 @@
 #include <questioncheckwindow.h>
 #include <pch.h>
 #include <QFileDialog>
+#include <QProgressDialog>
+#include <QProgressBar>
+#include <QThread>
 
 MainWindow::MainWindow(const QString& userName, QWidget *parent)
     : QMainWindow(parent)
@@ -18,17 +21,29 @@ MainWindow::MainWindow(const QString& userName, QWidget *parent)
     ui->statusbar->showMessage("User : " + m_userName);
     //setCentralWidget(ui->plainTextEdit);
     auto menuFile = ui->menubar->addMenu("File");
+
     auto actionNewFile = menuFile->addAction("New file");
+    actionNewFile->setShortcut(Qt::CTRL + Qt::Key_N);
     connect(actionNewFile, &QAction::triggered, this, &MainWindow::newFile);
+
     auto actionOpenFile = menuFile->addAction("Open file");
+    actionOpenFile->setShortcut(Qt::CTRL + Qt::Key_O);
     connect(actionOpenFile, &QAction::triggered, this, &MainWindow::openFile);
+
     auto actionSaveFile = menuFile->addAction("Save");
+    actionSaveFile->setShortcut(Qt::CTRL + Qt::Key_S);
     connect(actionSaveFile, &QAction::triggered, this, &MainWindow::saveFile);
+
     auto actionSaveAsFile = menuFile->addAction("Save as");
+    actionSaveAsFile->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_S);
     connect(actionSaveAsFile, &QAction::triggered, this, &MainWindow::saveAsFile);
+
     auto actionFileParameters = menuFile->addAction("Paremeters");
+    actionFileParameters->setShortcut(Qt::CTRL + Qt::Key_I);
     connect(actionFileParameters, &QAction::triggered, this, &MainWindow::parameters);
+
     auto actionPrintFile = menuFile->addAction("Print");
+    actionPrintFile->setShortcut(Qt::CTRL + Qt::Key_P);
     connect(actionPrintFile, &QAction::triggered, this, &MainWindow::printFile);
 
 
@@ -46,6 +61,7 @@ MainWindow::MainWindow(const QString& userName, QWidget *parent)
     {
         //Admin can manage profiles
         auto actionManageAccounts = ui->menubar->addAction("Manage accounts");
+        actionManageAccounts->setShortcut(Qt::CTRL + Qt::Key_M);
         connect(actionManageAccounts, &QAction::triggered, this, &MainWindow::manageAccounts);
     }
 
@@ -224,6 +240,26 @@ void MainWindow::printFile()
 {
     qDebug() << "Main window : Print file";
     PLOGI <<    "Main window : Print file";
+    QProgressDialog pd(this);
+    pd.setRange(0,100);
+    pd.setLabelText("Printing the text");
+    pd.setWindowTitle("Printing");
+    pd.setFixedSize(400, 100);
+    QProgressBar pb;
+    pd.setBar(&pb);
+    pd.setModal(true);
+    pd.setCancelButton(nullptr);
+    pd.show();
+    int progress = 0;
+
+    for(int i=0;i<100; ++i)
+    {
+        QThread::msleep(30);
+        QApplication::processEvents();
+        ++progress;
+        pd.setValue(progress);
+    }
+    pd.deleteLater();
 }
 
 void MainWindow::manageAccounts()
