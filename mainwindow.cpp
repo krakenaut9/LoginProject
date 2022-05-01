@@ -6,6 +6,7 @@
 #include <manageaccountswindow.h>
 #include <questioncheckwindow.h>
 #include <pch.h>
+#include <QFileDialog>
 
 MainWindow::MainWindow(const QString& userName, QWidget *parent)
     : QMainWindow(parent)
@@ -15,6 +16,21 @@ MainWindow::MainWindow(const QString& userName, QWidget *parent)
 {
     ui->setupUi(this);
     ui->statusbar->showMessage("User : " + m_userName);
+    //setCentralWidget(ui->plainTextEdit);
+    auto menuFile = ui->menubar->addMenu("File");
+    auto actionNewFile = menuFile->addAction("New file");
+    connect(actionNewFile, &QAction::triggered, this, &MainWindow::newFile);
+    auto actionOpenFile = menuFile->addAction("Open file");
+    connect(actionOpenFile, &QAction::triggered, this, &MainWindow::openFile);
+    auto actionSaveFile = menuFile->addAction("Save");
+    connect(actionSaveFile, &QAction::triggered, this, &MainWindow::saveFile);
+    auto actionSaveAsFile = menuFile->addAction("Save as");
+    connect(actionSaveAsFile, &QAction::triggered, this, &MainWindow::saveAsFile);
+    auto actionFileParameters = menuFile->addAction("Paremeters");
+    connect(actionFileParameters, &QAction::triggered, this, &MainWindow::parameters);
+    auto actionPrintFile = menuFile->addAction("Print");
+    connect(actionPrintFile, &QAction::triggered, this, &MainWindow::printFile);
+
 
     auto menuMyAccount = ui->menubar->addMenu("My account");
 
@@ -43,7 +59,7 @@ MainWindow::MainWindow(const QString& userName, QWidget *parent)
     connect(m_timer, &QTimer::timeout, this, &MainWindow::reAuthTimer);
     m_timer->start(TIME_INTERVAL);
 
-    setWindowTitle("Main Window : " + userName);
+    setWindowTitle("Main Window : " + userName  + " (" + UNTITLED + ')');
 }
 
 MainWindow::~MainWindow()
@@ -68,6 +84,147 @@ void MainWindow::changeMyPassword()
     }
 }
 
+void MainWindow::openFile()
+{
+    qDebug() << "Main window : Open file";
+    PLOGI <<    "Main window : Open file";
+    QString filePath = QFileDialog::getOpenFileName(this, "Open file", QDir::currentPath());
+    if(ui->plainTextEdit->document()->isModified())
+    {
+        auto answer = QMessageBox::question(this, "Save file", "Do you want to save changes?", QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+        if(answer == QMessageBox::Yes)
+        {
+            //TODO : Save file
+            saveFile();
+        }
+        else if(answer == QMessageBox::No)
+        {
+            qDebug() << "Main window : Don't save file";
+        }
+        else
+        {
+            qDebug() << "Main window : New file canceled";
+            return;
+        }
+    }
+    if(!filePath.isEmpty())
+    {
+        qDebug() << "Main window : " << m_userName << " tries to open file : " << filePath;
+        PLOGI << "Main window : " << m_userName << " tries to open file : " << filePath;
+        m_file.setFileName(filePath);
+        if(!m_file.open(QFile::ReadOnly | QIODevice::Text | QIODevice::ExistingOnly))
+        {
+            qDebug() << "Main window : Unable to open file " << m_file.fileName();
+            PLOGE << "Main window : Unable to open file " << m_file.fileName();
+            QMessageBox::critical(this, "Open failure", "Unable to open file" + m_file.fileName());
+            return;
+        }
+        ui->plainTextEdit->setPlainText(m_file.readAll());
+        ui->plainTextEdit->moveCursor(QTextCursor::End);
+        setWindowTitle("Main Window : " + m_userName  + " (" + QFileInfo(filePath).fileName() + ')');
+    }
+    else
+    {
+        qDebug() << "Main window : File open rejected";
+        PLOGI << "Main window : File open rejected";
+    }
+
+}
+
+void MainWindow::newFile()
+{
+    qDebug() << "Main window : New file";
+    PLOGI <<    "Main window : New file";
+    if(ui->plainTextEdit->document()->isModified())
+    {
+        auto answer = QMessageBox::question(this, "Save file", "Do you want to save changes?", QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+        if(answer == QMessageBox::Yes)
+        {
+            //TODO : Save file
+            saveFile();
+        }
+        else if(answer == QMessageBox::No)
+        {
+            qDebug() << "Main window : Don't save file";
+        }
+        else
+        {
+            qDebug() << "Main window : New file canceled";
+            return;
+        }
+    }
+    ui->plainTextEdit->clear();
+    m_file.close();
+    m_file.setFileName("");
+    setWindowTitle("Main Window : " + m_userName  + " (" + UNTITLED + ')');
+}
+
+void MainWindow::saveFile()
+{
+    qDebug() << "Main window : Save file";
+    PLOGI <<    "Main window : Save file";
+    if(!m_file.exists())
+    {
+        qDebug() << "Main window : File doesn't exist";
+        PLOGI << "Main window : File doesn't exist";
+        saveAsFile();
+        return;
+    }
+    m_file.flush();
+    m_file.close();
+    if(!m_file.open(QFile::WriteOnly | QFile::Text | QFile::Truncate))
+    {
+        qDebug() << "Main window : Unable to open file " << m_file.fileName();
+        PLOGE << "Main window : Unable to open file " << m_file.fileName();
+        QMessageBox::critical(this, "Open failure", "Unable to open file" + m_file.fileName());
+        return;
+    }
+    QTextStream fileStream(&m_file);
+    fileStream << ui->plainTextEdit->toPlainText();
+    ui->plainTextEdit->document()->setModified(false);
+}
+
+void MainWindow::saveAsFile()
+{
+    qDebug() << "Main window : Save as file";
+    PLOGI <<    "Main window : Save as file";
+    auto newFilePath = QFileDialog::getSaveFileName(this, "Save as", QDir::currentPath(), "Text files (*.txt)");
+    if(newFilePath.isEmpty())
+    {
+        qDebug() << "Save as window rejected";
+        PLOGI << "Save as window rejected";
+        return;
+    }
+    qDebug() << "Main window : Save as path " << newFilePath;
+    if(m_file.isOpen())
+    {
+        m_file.flush();
+        m_file.close();
+    }
+    m_file.setFileName(newFilePath);
+    if(!m_file.open(QFile::WriteOnly | QFile::Text | QFile::Truncate))
+    {
+        qDebug() << "Main window : Unable to open file " << m_file.fileName();
+        PLOGE << "Main window : Unable to open file " << m_file.fileName();
+        QMessageBox::critical(this, "Open failure", "Unable to open file" + m_file.fileName());
+        return;
+    }
+    QTextStream fileStream(&m_file);
+    fileStream << ui->plainTextEdit->toPlainText();
+    ui->plainTextEdit->document()->setModified(false);
+    setWindowTitle("Main Window : " + m_userName  + " (" + QFileInfo(newFilePath).fileName() + ')');
+}
+
+void MainWindow::parameters()
+{
+    qDebug() << "Main window : File parameters";
+    PLOGI <<    "Main window : File parameters";
+}
+void MainWindow::printFile()
+{
+    qDebug() << "Main window : Print file";
+    PLOGI <<    "Main window : Print file";
+}
 
 void MainWindow::manageAccounts()
 {
