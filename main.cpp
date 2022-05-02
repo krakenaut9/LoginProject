@@ -11,7 +11,7 @@
 int main(int argc, char *argv[])
 {
     plog::init(plog::info, "LogFile.log");
-    PLOGI << "Program started";
+    PLOGI << "\nProgram started";
 
     if(ManageUsers::initUsersFile(USERS_FILE) != QFile::NoError)
     {

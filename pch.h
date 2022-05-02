@@ -38,6 +38,7 @@
 #define UNTITLED "untitled"
 
 #define ACTIVATED "Activated"
+#define CAESAR_CIPHER_SHIFT 5
 
 #define MAX_USERS_COUNT 11
 #endif // PCH_H

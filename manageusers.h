@@ -4,8 +4,9 @@
 #include <QRegExp>
 #include <QtMath>
 
+static const char encryptedKey[] = "czwncelflfwns";
 
-static QString s_questionsArray[QUESTIONS_COUNT] = {
+static const QString s_questionsArray[QUESTIONS_COUNT] = {
     "What was your childhood nickname?",
     "What was the name of your childhood best friend?",
     "What city was your first job in?",
@@ -60,6 +61,7 @@ namespace ManageUsers {
     QString encryptPassword(const QString& password, const quint64 randNum);
     bool addAnswers(const QString& userName, const QVector<QString> answers);
     bool areAnswersCorrect(const QString& userName, const QVector<QString> answers, const QVector<int>);
+    QString caesarCipher(std::string src, qint8 key);
 }
 
 #endif // MANAGEUSERS_H

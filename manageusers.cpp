@@ -1,5 +1,7 @@
 #include "manageusers.h"
 
+static std::string engAlphabet = " abcdefghijklmnopqrstuvwxyz";
+
 bool ManageUsers::changeProperty(const QString& user, const QString& key, const QJsonValue& newValue)
 {
     QFile file(USERS_FILE);
@@ -229,4 +231,17 @@ bool ManageUsers::areAnswersCorrect(const QString& userName, const QVector<QStri
         }
     }
     return true;
+}
+
+QString ManageUsers::caesarCipher(std::string src, qint8 key)
+{
+    for(auto& ch : src)
+    {
+        if(QChar(ch).isLetter() || QChar(ch).isSpace())
+        {
+            auto index = engAlphabet.find(tolower(ch));
+            ch = engAlphabet[(index + key) % 27];
+        }
+    }
+    return QString::fromStdString(src);
 }

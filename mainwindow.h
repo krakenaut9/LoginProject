@@ -28,6 +28,7 @@ public slots:
     void saveAsFile();
     void parameters();
     void printFile();
+    void activate();
 
 private:
     Ui::MainWindow *ui;

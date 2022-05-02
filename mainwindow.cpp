@@ -7,10 +7,12 @@
 #include <questioncheckwindow.h>
 #include <fileinfowindow.h>
 #include <pch.h>
+#include <manageusers.h>
 #include <QFileDialog>
 #include <QProgressDialog>
 #include <QProgressBar>
 #include <QThread>
+#include <QInputDialog>
 
 MainWindow::MainWindow(const QString& userName, bool activated, QWidget *parent)
     : QMainWindow(parent)
@@ -79,9 +81,13 @@ MainWindow::MainWindow(const QString& userName, bool activated, QWidget *parent)
 
     if(m_activated == false)
     {
-        qDebug() << "Main Window : " + userName  + " doesn't hve an activated account";
-        PLOGI <<"Main Window : " + userName  + " doesn't hve an activated account";
+        qDebug() << "Main Window : " + userName  + " doesn't have an activated account";
+        PLOGI <<"Main Window : " + userName  + " doesn't have an activated account";
         actionFileParameters->setDisabled(true);
+        auto actionActivate = ui->menubar->addAction("Activate");
+        actionActivate->setShortcut(Qt::CTRL + Qt::Key_A);
+        connect(actionActivate, &QAction::triggered, this, &MainWindow::activate);
+
     }
     else
     {
@@ -111,6 +117,36 @@ void MainWindow::changeMyPassword()
     else
     {
         PLOGW << "Change password window rejected";
+    }
+}
+
+void MainWindow::activate()
+{
+    qDebug() << "Main window : " + m_userName + " tries to activate the account";
+    PLOGI << "Main window : " + m_userName + " tries to activate the account";
+    bool result;
+    QString key = QInputDialog::getText(this, "Key", "Activation key : ", QLineEdit::Normal, "", &result);
+    if(result)
+    {
+        qDebug() << "User enters key : " << key;
+        PLOGI << "User " << m_userName << " accepts key window";
+        if(ManageUsers::caesarCipher(key.toStdString(), CAESAR_CIPHER_SHIFT) == encryptedKey)
+        {
+            qDebug() << "The key is correct";
+            PLOGI << "The key is correct";
+            ManageUsers::changeProperty(m_userName, ACTIVATED, true);
+        }
+        else
+        {
+            qDebug() << "Incorrect key";
+            PLOGI << "Incorrect key";
+            QMessageBox::warning(this, "Incorrect key", "This key is not correct");
+        }
+    }
+    else
+    {
+        qDebug() << "User " << m_userName << " rejects key window";
+        PLOGI << "User " << m_userName << " rejects key window";
     }
 }
 
