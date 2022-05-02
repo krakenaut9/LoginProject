@@ -117,6 +117,7 @@ void LoginWindow::on_loginButton_clicked()
     {
         ManageUsers::changeProperty(userName, FIRST_LOGIN, false);
     }
+    m_activated = userObjectIterator.value().toObject()[ACTIVATED].toBool();
     accept();
     SetUserName(userName);
 }
@@ -147,6 +148,12 @@ bool LoginWindow::GetFirstLogin()const noexcept
 {
     return m_firstLogin;
 }
+
+bool LoginWindow::GetActivated()const noexcept
+{
+    return m_activated;
+}
+
 void LoginWindow::SetFirstLogin(const bool isFirstLogin)
 {
     m_firstLogin = isFirstLogin;

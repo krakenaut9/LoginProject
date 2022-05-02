@@ -13,7 +13,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(const QString& userName, QWidget *parent = nullptr);
+    MainWindow(const QString& userName, bool activated, QWidget *parent = nullptr);
     ~MainWindow();
 
 public slots:
@@ -34,5 +34,6 @@ private:
     QString m_userName;
     QTimer* m_timer;
     QFile m_file;
+    bool m_activated;
 };
 #endif // MAINWINDOW_H

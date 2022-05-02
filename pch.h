@@ -37,5 +37,7 @@
 
 #define UNTITLED "untitled"
 
+#define ACTIVATED "Activated"
+
 #define MAX_USERS_COUNT 11
 #endif // PCH_H

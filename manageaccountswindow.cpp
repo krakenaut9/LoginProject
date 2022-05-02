@@ -123,6 +123,7 @@ void ManageAccountsWindow::on_addButton_clicked()
     userData.insert(RESTRICTED_PASSWORD, editor.getRestrictedState());
     userData.insert(FIRST_LOGIN, true);
     userData.insert(ACCESS_LEVEL, editor.getAccessLevel());
+    userData.insert(ACTIVATED, false);
     bool addRes = ManageUsers::addUser(editor.getUserName(), userData);
     if(addRes == false)
     {

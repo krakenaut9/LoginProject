@@ -59,7 +59,7 @@ namespace ManageUsers {
     QFile::FileError initQuestionsFile(const QString fileName);
     QString encryptPassword(const QString& password, const quint64 randNum);
     bool addAnswers(const QString& userName, const QVector<QString> answers);
-    bool isAnswersCorrect(const QString& userName, const QVector<QString> answers, const QVector<int>);
+    bool areAnswersCorrect(const QString& userName, const QVector<QString> answers, const QVector<int>);
 }
 
 #endif // MANAGEUSERS_H

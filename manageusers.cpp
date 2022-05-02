@@ -127,6 +127,7 @@ QFile::FileError ManageUsers::initUsersFile(const QString& fileName)
         adminUser.insert(RESTRICTED_PASSWORD, false);
         adminUser.insert(FIRST_LOGIN, true);
         adminUser.insert(ACCESS_LEVEL, ACCESS_LEVEL_ADMIN);
+        adminUser.insert(ACTIVATED, false);
         mainObject.insert(ADMIN, adminUser);
         QJsonDocument jsonDoc(mainObject);
         qDebug() << jsonDoc.toJson(QJsonDocument::Indented);
@@ -200,7 +201,7 @@ bool ManageUsers::addAnswers(const QString& userName, const QVector<QString> ans
     return true;
 }
 
-bool ManageUsers::isAnswersCorrect(const QString& userName, const QVector<QString> answers, const QVector<int> questions)
+bool ManageUsers::areAnswersCorrect(const QString& userName, const QVector<QString> answers, const QVector<int> questions)
 {
     QFile file(USERS_FILE);
     file.open(QIODevice::ReadOnly | QIODevice::Text | QIODevice::ExistingOnly);

@@ -12,11 +12,12 @@
 #include <QProgressBar>
 #include <QThread>
 
-MainWindow::MainWindow(const QString& userName, QWidget *parent)
+MainWindow::MainWindow(const QString& userName, bool activated, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , m_userName(userName)
     , m_timer(new QTimer(this))
+    , m_activated(activated)
 {
     ui->setupUi(this);
     ui->statusbar->showMessage("User : " + m_userName);
@@ -75,6 +76,18 @@ MainWindow::MainWindow(const QString& userName, QWidget *parent)
 
     connect(m_timer, &QTimer::timeout, this, &MainWindow::reAuthTimer);
     m_timer->start(TIME_INTERVAL);
+
+    if(m_activated == false)
+    {
+        qDebug() << "Main Window : " + userName  + " doesn't hve an activated account";
+        PLOGI <<"Main Window : " + userName  + " doesn't hve an activated account";
+        actionFileParameters->setDisabled(true);
+    }
+    else
+    {
+        qDebug() << "Main Window : " + userName  + " has an activated account";
+        PLOGI <<"Main Window : " + userName  + " has an activated account";
+    }
 
     setWindowTitle("Main Window : " + userName  + " (" + UNTITLED + ')');
 }
@@ -239,6 +252,9 @@ void MainWindow::parameters()
     PLOGI <<    "Main window : File parameters";
     if(!m_file.exists())
     {
+        qDebug() << "You haven't opened any file yet";
+        PLOGW << "You haven't opened any file yet";
+        QMessageBox::warning(this, "No file", "You haven't opened any file yet");
         return;
     }
     FileInfoWindow fileInfoW(m_file.fileName());

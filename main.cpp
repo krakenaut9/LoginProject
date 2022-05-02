@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 
         PLOGI << "User : " << lw.GetUserName() << " logged in successfully";
         qDebug()<<"Login and password are correct";
-        MainWindow w(lw.GetUserName());
+        MainWindow w(lw.GetUserName(), lw.GetActivated());
         w.show();
         return a.exec();
     }

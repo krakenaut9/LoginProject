@@ -105,7 +105,7 @@ void QuestionCheckWindow::on_nextPushButton_clicked()
         if(m_questionIndex == QUESTIONS_TO_CHECK - 1)
         {
             qDebug() << "Confirm check";
-            if(ManageUsers::isAnswersCorrect(m_userName, m_answers, m_questionsToCheck))
+            if(ManageUsers::areAnswersCorrect(m_userName, m_answers, m_questionsToCheck))
             {
                 PLOGI << m_userName << " : answers are correct. Continue";
                 qDebug() << "Answers are correct";
