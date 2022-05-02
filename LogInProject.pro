@@ -15,6 +15,7 @@ SOURCES += \
     aboutwindow.cpp \
     accounteditorwindow.cpp \
     chpasswindow.cpp \
+    fileinfowindow.cpp \
     loginwindow.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -27,6 +28,7 @@ HEADERS += \
     aboutwindow.h \
     accounteditorwindow.h \
     chpasswindow.h \
+    fileinfowindow.h \
     loginwindow.h \
     mainwindow.h \
     manageaccountswindow.h \
@@ -39,6 +41,7 @@ FORMS += \
     aboutwindow.ui \
     accounteditorwindow.ui \
     chpasswindow.ui \
+    fileinfowindow.ui \
     loginwindow.ui \
     mainwindow.ui \
     manageaccountswindow.ui \

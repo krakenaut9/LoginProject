@@ -5,6 +5,7 @@
 #include <chpasswindow.h>
 #include <manageaccountswindow.h>
 #include <questioncheckwindow.h>
+#include <fileinfowindow.h>
 #include <pch.h>
 #include <QFileDialog>
 #include <QProgressDialog>
@@ -104,7 +105,6 @@ void MainWindow::openFile()
 {
     qDebug() << "Main window : Open file";
     PLOGI <<    "Main window : Open file";
-    QString filePath = QFileDialog::getOpenFileName(this, "Open file", QDir::currentPath());
     if(ui->plainTextEdit->document()->isModified())
     {
         auto answer = QMessageBox::question(this, "Save file", "Do you want to save changes?", QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
@@ -123,6 +123,8 @@ void MainWindow::openFile()
             return;
         }
     }
+
+    QString filePath = QFileDialog::getOpenFileName(this, "Open file", QDir::currentPath());
     if(!filePath.isEmpty())
     {
         qDebug() << "Main window : " << m_userName << " tries to open file : " << filePath;
@@ -235,6 +237,13 @@ void MainWindow::parameters()
 {
     qDebug() << "Main window : File parameters";
     PLOGI <<    "Main window : File parameters";
+    if(!m_file.exists())
+    {
+        return;
+    }
+    FileInfoWindow fileInfoW(m_file.fileName());
+    fileInfoW.setModal(true);
+    fileInfoW.exec();
 }
 void MainWindow::printFile()
 {
@@ -299,10 +308,11 @@ void MainWindow::reAuthTimer()
     if(questionsCheck.exec() == QDialog::Accepted)
     {
         qDebug() << "Questions check accepted";
-
+        PLOGI << "Questions check accepted";
     }
     else{
-        qDebug()<< "Questions check rejected";
+        qDebug() << "Questions check rejected";
+        PLOGW << "Questions check rejected";
         QMessageBox::critical(this, "Fail", "Reauthentication failed");
         QApplication::quit();
         return;
