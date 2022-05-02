@@ -23,32 +23,24 @@ MainWindow::MainWindow(const QString& userName, bool activated, QWidget *parent)
 {
     ui->setupUi(this);
     ui->statusbar->showMessage("User : " + m_userName);
-    //setCentralWidget(ui->plainTextEdit);
-    auto menuFile = ui->menubar->addMenu("File");
 
-    auto actionNewFile = menuFile->addAction("New file");
-    actionNewFile->setShortcut(Qt::CTRL + Qt::Key_N);
-    connect(actionNewFile, &QAction::triggered, this, &MainWindow::newFile);
+    ui->actionNew->setShortcut(Qt::CTRL + Qt::Key_N);
+    connect(ui->actionNew, &QAction::triggered, this, &MainWindow::newFile);
 
-    auto actionOpenFile = menuFile->addAction("Open file");
-    actionOpenFile->setShortcut(Qt::CTRL + Qt::Key_O);
-    connect(actionOpenFile, &QAction::triggered, this, &MainWindow::openFile);
+    ui->actionOpen->setShortcut(Qt::CTRL + Qt::Key_O);
+    connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::openFile);
 
-    auto actionSaveFile = menuFile->addAction("Save");
-    actionSaveFile->setShortcut(Qt::CTRL + Qt::Key_S);
-    connect(actionSaveFile, &QAction::triggered, this, &MainWindow::saveFile);
+    ui->actionSave->setShortcut(Qt::CTRL + Qt::Key_S);
+    connect(ui->actionSave, &QAction::triggered, this, &MainWindow::saveFile);
 
-    auto actionSaveAsFile = menuFile->addAction("Save as");
-    actionSaveAsFile->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_S);
-    connect(actionSaveAsFile, &QAction::triggered, this, &MainWindow::saveAsFile);
+    ui->actionSave_as->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_S);
+    connect(ui->actionSave_as, &QAction::triggered, this, &MainWindow::saveAsFile);
 
-    auto actionFileParameters = menuFile->addAction("Paremeters");
-    actionFileParameters->setShortcut(Qt::CTRL + Qt::Key_I);
-    connect(actionFileParameters, &QAction::triggered, this, &MainWindow::parameters);
+    ui->actionParameters->setShortcut(Qt::CTRL + Qt::Key_I);
+    connect(ui->actionParameters, &QAction::triggered, this, &MainWindow::parameters);
 
-    auto actionPrintFile = menuFile->addAction("Print");
-    actionPrintFile->setShortcut(Qt::CTRL + Qt::Key_P);
-    connect(actionPrintFile, &QAction::triggered, this, &MainWindow::printFile);
+    ui->actionPrint->setShortcut(Qt::CTRL + Qt::Key_P);
+    connect(ui->actionPrint, &QAction::triggered, this, &MainWindow::printFile);
 
 
     auto menuMyAccount = ui->menubar->addMenu("My account");
@@ -83,10 +75,10 @@ MainWindow::MainWindow(const QString& userName, bool activated, QWidget *parent)
     {
         qDebug() << "Main Window : " + userName  + " doesn't have an activated account";
         PLOGI <<"Main Window : " + userName  + " doesn't have an activated account";
-        actionFileParameters->setDisabled(true);
-        auto actionActivate = ui->menubar->addAction("Activate");
-        actionActivate->setShortcut(Qt::CTRL + Qt::Key_A);
-        connect(actionActivate, &QAction::triggered, this, &MainWindow::activate);
+        ui->actionParameters->setDisabled(true);
+        m_activateAction = ui->menubar->addAction("Activate");
+        m_activateAction->setShortcut(Qt::CTRL + Qt::Key_A);
+        connect(m_activateAction, &QAction::triggered, this, &MainWindow::activate);
 
     }
     else
@@ -133,8 +125,10 @@ void MainWindow::activate()
         if(ManageUsers::caesarCipher(key.toStdString(), CAESAR_CIPHER_SHIFT) == encryptedKey)
         {
             qDebug() << "The key is correct";
-            PLOGI << "The key is correct";
+            PLOGI << "The key is correct. Activating account";
             ManageUsers::changeProperty(m_userName, ACTIVATED, true);
+            ui->actionParameters->setDisabled(false);
+            m_activateAction->deleteLater();
         }
         else
         {
@@ -159,16 +153,17 @@ void MainWindow::openFile()
         auto answer = QMessageBox::question(this, "Save file", "Do you want to save changes?", QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         if(answer == QMessageBox::Yes)
         {
-            //TODO : Save file
             saveFile();
         }
         else if(answer == QMessageBox::No)
         {
             qDebug() << "Main window : Don't save file";
+            PLOGI <<  "Main window : Don't save file";
         }
         else
         {
             qDebug() << "Main window : New file canceled";
+            PLOGI << "Main window : New file canceled";
             return;
         }
     }
@@ -207,16 +202,17 @@ void MainWindow::newFile()
         auto answer = QMessageBox::question(this, "Save file", "Do you want to save changes?", QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         if(answer == QMessageBox::Yes)
         {
-            //TODO : Save file
             saveFile();
         }
         else if(answer == QMessageBox::No)
         {
             qDebug() << "Main window : Don't save file";
+            PLOGI << "Main window : Don't save file";
         }
         else
         {
             qDebug() << "Main window : New file canceled";
+            PLOGI << "Main window : New file canceled";
             return;
         }
     }

@@ -35,6 +35,7 @@ private:
     QString m_userName;
     QTimer* m_timer;
     QFile m_file;
+    QAction* m_activateAction;
     bool m_activated;
 };
 #endif // MAINWINDOW_H
