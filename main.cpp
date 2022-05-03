@@ -20,13 +20,6 @@ int main(int argc, char *argv[])
         return 2;
     }
 
-    if(ManageUsers::initQuestionsFile(QUESTIONS_FILE) != QFile::NoError)
-    {
-        qDebug("Init questions file failed");
-        PLOGF << "Init questions file failed";
-        return 3;
-    }
-
     QApplication a(argc, argv);
     LoginWindow lw;
     if(lw.exec() == QDialog::Accepted)

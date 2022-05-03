@@ -127,6 +127,7 @@ void MainWindow::activate()
             qDebug() << "The key is correct";
             PLOGI << "The key is correct. Activating account";
             ManageUsers::changeProperty(m_userName, ACTIVATED, true);
+            QMessageBox::information(this, "Activated", "The product successfully activated");
             ui->actionParameters->setDisabled(false);
             m_activateAction->deleteLater();
         }

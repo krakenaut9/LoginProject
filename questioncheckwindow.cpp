@@ -50,7 +50,6 @@ QuestionCheckWindow::QuestionCheckWindow(QString userName, QString winType, QWid
     }
     else
     {
-        qDebug() << "s_questionsArray[m_questionsToCheck[0]]" << s_questionsArray[m_questionsToCheck[0]];
         ui->questionLabel->setText(s_questionsArray[m_questionsToCheck[0]]);
     }
     connect(ui->answerLineEdit, &QLineEdit::returnPressed, this, &QuestionCheckWindow::on_nextPushButton_clicked);
