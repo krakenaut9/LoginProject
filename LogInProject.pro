@@ -10,10 +10,13 @@ CONFIG += c++11
 
 INCLUDEPATH += \
     $$PWD\plog\include \
+    $$PWD\captcha/
 
 SOURCES += \
     aboutwindow.cpp \
     accounteditorwindow.cpp \
+    captcha/captcha.cpp \
+    captchawindow.cpp \
     chpasswindow.cpp \
     fileinfowindow.cpp \
     loginwindow.cpp \
@@ -27,6 +30,8 @@ SOURCES += \
 HEADERS += \
     aboutwindow.h \
     accounteditorwindow.h \
+    captcha/captcha.h \
+    captchawindow.h \
     chpasswindow.h \
     fileinfowindow.h \
     loginwindow.h \
@@ -40,6 +45,7 @@ HEADERS += \
 FORMS += \
     aboutwindow.ui \
     accounteditorwindow.ui \
+    captchawindow.ui \
     chpasswindow.ui \
     fileinfowindow.ui \
     loginwindow.ui \

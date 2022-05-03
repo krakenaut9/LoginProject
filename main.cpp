@@ -7,6 +7,7 @@
 #include "plog/Initializers/RollingFileInitializer.h"
 #include <questioncheckwindow.h>
 #include <manageusers.h>
+#include <captchawindow.h>
 
 int main(int argc, char *argv[])
 {
@@ -22,6 +23,19 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     LoginWindow lw;
+    lw.show();
+    CaptchaWindow cw;
+    if(cw.exec() == QDialog::Accepted)
+    {
+        qDebug() << "User passes captcha test successfully";
+        PLOGI << "User passes captcha test successfully";
+    }
+    else
+    {
+        qDebug() << "Captcha test rejected";
+        PLOGI << "Captcha test rejected";
+        return 3;
+    }
     if(lw.exec() == QDialog::Accepted)
     {
         if(lw.GetFirstLogin())
