@@ -1,21 +1,3 @@
-/*
-* Copyright (c) 2014 Omkar Kanase
-*
-* This software is provided 'as-is', without any express or implied
-* warranty.  In no event will the authors be held liable for any damages
-* arising from the use of this software.
-* Permission is granted to anyone to use this software for any purpose,
-* including commercial applications, and to alter it and redistribute it
-* freely, subject to the following restrictions:
-* 1. The origin of this software must not be misrepresented; you must not
-* claim that you wrote the original software. If you use this software
-* in a product, an acknowledgment in the product documentation would be
-* appreciated but is not required.
-* 2. Altered source versions must be plainly marked as such, and must not be
-* misrepresented as being the original software.
-* 3. This notice may not be removed or altered from any source distribution.
-*/
-
 #include "captcha.h"
 
 Captcha::Captcha(QObject *parent) :
@@ -34,7 +16,6 @@ Captcha::Captcha(QObject *parent) :
 
     m_captchaImage = QImage(200, 100, QImage::Format_RGB32);
     m_deformationType = Deform_SinCurve;
-    m_captchaText = "Test";
 
     m_textGeneration = TextGeneration_Random;
     m_fontColor = Qt::black;
@@ -252,7 +233,7 @@ void Captcha::updateCaptcha()
         }
 
         m_captchaImage = QImage(fm.width(m_captchaText) + m_vmod2 * 2 + m_padding * 2, fm.height() + m_hmod2 * 2 + m_padding * 2, QImage::Format_RGB32);
-        m_captchaImage.scaled(500, 100);
+        m_captchaImage.scaled(200, 100);
     }
 
     m_captchaImage.fill(backColor());

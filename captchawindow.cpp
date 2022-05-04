@@ -9,11 +9,12 @@ CaptchaWindow::CaptchaWindow(QWidget *parent) :
     ui->setupUi(this);
     m_captcha.randomize();
     m_captcha.setDifficulty(DIFFICULTY);
-    m_captcha.generateText();
+    m_captcha.generateText(6, true);
     ui->captchaLabel->setPixmap(QPixmap::fromImage(m_captcha.captchaImage()));
     connect(ui->okButton, &QPushButton::clicked, this, &CaptchaWindow::okClicked);
     connect(ui->changeTextButton, &QPushButton::clicked, this, &CaptchaWindow::changeText);
     ui->okButton->setDefault(true);
+    setWindowTitle("Captcha test");
 }
 
 CaptchaWindow::~CaptchaWindow()
@@ -57,7 +58,7 @@ void CaptchaWindow::changeText()
 {
     qDebug() << "User changes text";
     PLOGI << "User changes text";
-    m_captcha.generateText();
+    m_captcha.generateText(6, true);
     ui->captchaLabel->setPixmap(QPixmap::fromImage(m_captcha.captchaImage()));
     ui->answerLineEdit->clear();
     ui->answerLineEdit->setFocus();
