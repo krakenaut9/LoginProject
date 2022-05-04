@@ -128,6 +128,13 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="changeTextButton">
+       <property name="text">
+        <string>Change text</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="okButton">
        <property name="text">
         <string>Ok</string>

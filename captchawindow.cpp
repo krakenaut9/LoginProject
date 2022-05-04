@@ -12,6 +12,8 @@ CaptchaWindow::CaptchaWindow(QWidget *parent) :
     m_captcha.generateText();
     ui->captchaLabel->setPixmap(QPixmap::fromImage(m_captcha.captchaImage()));
     connect(ui->okButton, &QPushButton::clicked, this, &CaptchaWindow::okClicked);
+    connect(ui->changeTextButton, &QPushButton::clicked, this, &CaptchaWindow::changeText);
+    ui->okButton->setDefault(true);
 }
 
 CaptchaWindow::~CaptchaWindow()
@@ -49,4 +51,14 @@ void CaptchaWindow::okClicked()
             reject();
         }
     }
+}
+
+void CaptchaWindow::changeText()
+{
+    qDebug() << "User changes text";
+    PLOGI << "User changes text";
+    m_captcha.generateText();
+    ui->captchaLabel->setPixmap(QPixmap::fromImage(m_captcha.captchaImage()));
+    ui->answerLineEdit->clear();
+    ui->answerLineEdit->setFocus();
 }

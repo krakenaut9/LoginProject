@@ -22,6 +22,7 @@ public:
     ~CaptchaWindow();
 public slots:
     void okClicked();
+    void changeText();
 private:
     Ui::CaptchaWindow *ui;
     Captcha m_captcha;
